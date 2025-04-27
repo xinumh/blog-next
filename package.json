@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "migrate:prod": "drizzle-kit push --config=drizzle.prod.config.ts",
-    "deploy": "npm run build && npm run migrate:prod && npm run start",
+    "deploy": "npm run build && npm run migrate:generate && npm run migrate:prod && npm run start",
     "reset:dev": "rm -f sqlite.db && npm run migrate:dev",
     "lint": "next lint"
   },
