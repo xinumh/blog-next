@@ -9,6 +9,7 @@ export async function getPosts() {
     return await db.select().from(posts).all();
   } catch (error) {
     console.error("Database query failed:", error);
-    throw new Error("Failed to fetch posts.");
+    // throw new Error("Failed to fetch posts.");
+    return [];
   }
 }
