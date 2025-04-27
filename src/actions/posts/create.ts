@@ -3,9 +3,8 @@
 import { db } from "@/db/client";
 import { posts } from "@/db/schema";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
-export async function createPost(prevState: any, formData: FormData) {
+export async function createPost(prevState: unknown, formData: FormData) {
   try {
     const title = formData.get("title")?.toString().trim();
     const content = formData.get("content")?.toString().trim();

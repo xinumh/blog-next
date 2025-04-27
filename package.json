@@ -3,11 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run migrate:generate && npm run migrate:push && next dev",
-    "migrate:generate": "npx drizzle-kit generate --config=drizzle.config.ts",
-    "migrate:push": "npx drizzle-kit push --config=drizzle.config.ts",
+    "dev": "npm run migrate:dev && next dev",
+    "migrate:dev": "npm run migrate:generate && npm run migrate:push",
+    "migrate:generate": "drizzle-kit generate --config=drizzle.config.ts",
+    "migrate:push": "drizzle-kit push --config=drizzle.config.ts",
     "build": "next build",
     "start": "next start",
+    "migrate:prod": "drizzle-kit push --config=drizzle.prod.config.ts",
+    "deploy": "npm run build && npm run migrate:prod && npm run start",
+    "reset:dev": "rm -f sqlite.db && npm run migrate:dev",
     "lint": "next lint"
   },
   "dependencies": {
