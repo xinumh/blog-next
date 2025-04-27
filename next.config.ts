@@ -1,7 +1,19 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ["www.pexels.com"], // 配置图片域名白名单
+  },
+  experimental: {
+    serverActions: true, // 启用服务端操作（Next.js 14 默认开启）
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/proxy/:path*",
+        destination: "http://localhost:4000/api/proxy/:path*",
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
