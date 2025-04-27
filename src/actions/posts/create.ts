@@ -19,10 +19,15 @@ export async function createPost(prevState: unknown, formData: FormData) {
     }
 
     // 插入数据库
-    await db.insert(posts).values({
-      title,
-      content,
-    });
+    try {
+      await db.insert(posts).values({
+        title,
+        content,
+      });
+    } catch (e) {
+      console.error("插入数据库:", e);
+      return { success: false };
+    }
 
     // 刷新缓存并重定向
     revalidatePath("/posts");
