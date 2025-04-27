@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-   "dev": "yarn migrate:push && next dev",
-    "migrate:push": "drizzle-kit push --config drizzle.config.ts",
-    "migrate:generate": "drizzle-kit generate --config drizzle.config.ts",
+    "dev": "npm run migrate:generate && npm run migrate:push && next dev",
+    "migrate:generate": "npx drizzle-kit generate --config=drizzle.config.ts",
+    "migrate:push": "npx drizzle-kit push --config=drizzle.config.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
