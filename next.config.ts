@@ -6,14 +6,6 @@ const nextConfig = {
   experimental: {
     serverActions: true, // 启用服务端操作（Next.js 14 默认开启）
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/proxy/:path*",
-        destination: "http://localhost:4000/api/proxy/:path*",
-      },
-    ];
-  },
 };
 
 module.exports = nextConfig;

@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# drizzle
+/drizzle/migrations/*
+!/drizzle/migrations/.gitkeep  # 保留空目录结构
+
+#db
+*.db
+*.db-*
