@@ -1,6 +1,5 @@
 // 显示所有文章
 import { getPosts } from "@/actions/posts/get";
-import { redirect } from "next/navigation";
 
 export default async function PostsPage() {
   const posts = await getPosts();
