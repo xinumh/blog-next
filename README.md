@@ -2,35 +2,32 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+开发环境:
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+打开浏览器访问 [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 添加 `.env` 和 `.env.production` 文件
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```shell
+#.env
 
-## Learn More
+# 本地开发的 SQLite 数据库文件路径
+TURSO_DB_AUTH_TOKEN=your-turbo-token
+TURSO_DB_URL=libsql://xxxxxxx.aws-us-east-1.turso.io
+NODE_ENV=development
+NEXT_PUBLIC_BASE_API_URL=http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+`.env.production` 文件变量同 `.env` 一样，这俩文件是不提交 `git` 的，这里用来在本地开发的时候可以方便连 production 的 Turbo。线上部署在 `vercel` ，在 `vercel` 设置 `环境变量` `TURSO_DB_AUTH_TOKEN`、`TURSO_DB_URL`。所以线上环境连接的是 `vercel` 配置的 `Turbo`。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+> 环境变量在以下位置按顺序查找，一旦找到变量即停止。⚠️
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. `process.env`
+2. `.env.$(NODE_ENV).local`
+3. `.env.local`（当 `NODE_ENV` 为 `test` 时不检查。）
+4. `.env.$(NODE_ENV)`
+5. `.env`
