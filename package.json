@@ -9,6 +9,7 @@
     "migrate:push": "drizzle-kit push --config=drizzle.config.ts",
     "build": "next build",
     "start": "next start",
+    "deploy": "npm run build && npm run dev:prev && npm run start",
     "lint": "next lint"
   },
   "dependencies": {
