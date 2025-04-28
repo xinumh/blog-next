@@ -1,13 +1,10 @@
-import { drizzle } from "drizzle-orm/better-sqlite3";
-import Database from "better-sqlite3";
+import { drizzle } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client/web";
 import * as schema from "./schema";
 
-// 单例模式确保只有一个数据库连接
-const globalForDb = globalThis as unknown as {
-  conn: Database.Database | undefined;
-};
+const tursoClient = createClient({
+  url: process.env.TURSO_DB_URL as string,
+  authToken: process.env.TURSO_DB_AUTH_TOKEN,
+});
 
-const conn = globalForDb.conn ?? new Database("sqlite.db");
-if (process.env.NODE_ENV !== "production") globalForDb.conn = conn;
-
-export const db = drizzle(conn, { schema });
+export const db = drizzle(tursoClient, { schema });

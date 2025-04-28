@@ -18,16 +18,10 @@ export async function createPost(prevState: unknown, formData: FormData) {
       return { error: "内容至少需要10个字符" };
     }
 
-    // 插入数据库
-    try {
-      await db.insert(posts).values({
-        title,
-        content,
-      });
-    } catch (e) {
-      console.error("插入数据库:", e);
-      return { success: false };
-    }
+    await db.insert(posts).values({
+      title,
+      content,
+    });
 
     // 刷新缓存并重定向
     revalidatePath("/posts");
