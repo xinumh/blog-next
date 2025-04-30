@@ -7,10 +7,14 @@ const nextConfig = {
     serverActions: {}, // 启用服务端操作（Next.js 14 默认开启）
   },
   async rewrites() {
+    const isDev = process.env.NODE_ENV === "development";
+
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:4000/api/:path*", // 目标地址
+        destination: isDev
+          ? "http://localhost:4000/api/:path*" // 开发环境 API 地址
+          : "https://api.example.com/api/:path*", // 生产环境 API 地址
       },
     ];
   },
