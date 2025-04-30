@@ -1,5 +1,5 @@
 // 创建新文章页面
-import { CreatePostForm } from "@/components/create-post-form";
+import { CreatePostForm } from "@/components/CreatePostForm";
 
 export default function NewPostPage() {
   return (

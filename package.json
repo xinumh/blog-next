@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run dev:prev && next dev",
+    "dev": "next dev",
+    "dev:db": "npm run dev:prev && next dev",
     "dev:prev": "npm run migrate:generate && npm run migrate:push",
     "migrate:generate": "drizzle-kit generate --config drizzle.config.ts",
     "migrate:push": "drizzle-kit push --config=drizzle.config.ts",
     "build": "next build",
     "start": "next start",
-    "deploy": "npm run build && npm run dev:prev && npm run start",
+    "deploy": "npm run build && npm run start",
+    "deploy:db": "npm run build && npm run dev:prev && npm run start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -27,6 +29,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "clsx": "^2.1.1",
     "drizzle-kit": "^0.31.0",
     "drizzle-orm": "^0.43.1",
     "eslint": "^9",
