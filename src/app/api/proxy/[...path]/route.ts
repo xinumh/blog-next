@@ -1,12 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
-  return proxyRequest(req, params);
-}
-
 export async function POST(
   req: NextRequest,
   { params }: { params: { path: string[] } }
