@@ -14,7 +14,7 @@ const nextConfig = {
         source: "/api/:path*",
         destination: isDev
           ? "http://localhost:4000/api/:path*" // 开发环境 API 地址
-          : "https://api.example.com/api/:path*", // 生产环境 API 地址
+          : "https://api.wonder.wang/api/:path*", // 生产环境 API 地址
       },
     ];
   },
