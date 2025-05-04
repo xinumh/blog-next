@@ -21,7 +21,7 @@ export default function RssSourcesPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await fetch("/api/rss_sources/page", {
+      const res = await fetch("/api/proxy?path=/api/rss_sources/page", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

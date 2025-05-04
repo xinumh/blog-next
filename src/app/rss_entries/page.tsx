@@ -23,19 +23,23 @@ export default function RssEntriesPage() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await fetch("/api/rss_entries/page", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ page, pageSize }),
-      });
+      try {
+        const res = await fetch("/api/proxy?path=/api/rss_entries/page", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ page, pageSize }),
+        });
 
-      const result = await res.json();
-      console.log("result=======", result);
-      setData(result.data?.data ?? []); // 确保 API 返回 { data: [...] }
-      setTotal(result.data?.total ?? 0);
-      setLoading(false);
+        const result = await res.json();
+        console.log("result=======", result);
+        setData(result.data?.data ?? []); // 确保 API 返回 { data: [...] }
+        setTotal(result.data?.total ?? 0);
+        setLoading(false);
+      } catch (error) {
+        console.error("Request failed:", error);
+      }
     };
 
     fetchData();
