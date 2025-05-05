@@ -11,7 +11,7 @@ export default function RssPage() {
     const name = formData.get("name"); // 获取 input[name="name"] 的值
     const description = formData.get("description");
     const url = formData.get("url");
-    const res = await fetch("/api/rss_sources/create", {
+    const res = await fetch("/api/proxy?path=/api/rss_sources/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
