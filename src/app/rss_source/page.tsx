@@ -58,7 +58,7 @@ export default function RssSourcesPage() {
           <ul className="space-y-2">
             {data.map((item, index) => (
               <li key={index} className="p-3 border rounded">
-                {item.name} – {item.url}
+                {item.name} – {item.description}
               </li>
             ))}
           </ul>
