@@ -10,8 +10,8 @@ const navItems = [
   { label: "About", path: "/about" },
   { label: "Services", path: "/services" },
   { label: "Contact", path: "/contact" },
-  { label: "rss_entries", path: "/rss_entries" },
-  { label: "rss_source", path: "/rss_source" },
+  { label: "RSS_Entries", path: "/rss_entries" },
+  { label: "RSS_Sources", path: "/rss_source" },
 ];
 
 export default function Navigation() {
