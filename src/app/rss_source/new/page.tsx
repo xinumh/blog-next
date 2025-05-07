@@ -1,4 +1,5 @@
 "use client";
+import { getCookie } from "@/utils/cookie";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -6,6 +7,7 @@ export default function RssPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const token = getCookie("token");
 
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
@@ -21,6 +23,7 @@ export default function RssPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // 标准做法，格式是 Bearer + 空格 + token
         },
         body: JSON.stringify({ name, url, description }),
       });
