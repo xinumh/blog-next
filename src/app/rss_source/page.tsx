@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-type RssSourcesType = {
+export type RssSourcesType = {
+  id: number;
   name: string;
   url: string;
   description: string;
@@ -63,25 +64,27 @@ export default function RssSourcesPage() {
             ))}
           </ul>
 
-          <div className="flex justify-between mt-6 items-center">
-            <button
-              onClick={handlePrev}
-              disabled={page === 1}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <span>
-              Page {page} of {totalPages}
-            </span>
-            <button
-              onClick={handleNext}
-              disabled={page === totalPages}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
+          {data?.length > 0 ? (
+            <div className="flex justify-between mt-6 items-center">
+              <button
+                onClick={handlePrev}
+                disabled={page === 1}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                Previous
+              </button>
+              <span>
+                Page {page} of {totalPages}
+              </span>
+              <button
+                onClick={handleNext}
+                disabled={page === totalPages}
+                className="px-3 py-1 border rounded disabled:opacity-50"
+              >
+                Next
+              </button>
+            </div>
+          ) : null}
         </>
       )}
     </div>

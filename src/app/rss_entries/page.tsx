@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { RssSourcesType } from "../rss_source/page";
 
 type RssEntriesType = {
   id: number;
@@ -12,6 +13,8 @@ type RssEntriesType = {
 
 export default function RssEntriesPage() {
   const [data, setData] = useState<RssEntriesType[]>([]);
+  const [sources, setSources] = useState<RssSourcesType[]>([]);
+  const [sourceId, setSourceId] = useState<number>();
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
@@ -20,38 +23,89 @@ export default function RssEntriesPage() {
 
   const totalPages = Math.ceil(total / pageSize);
 
+  const fetchData = async (page: number, source: unknown) => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/proxy?path=/api/rss_entries/page", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page, pageSize, sourceId: source }),
+      });
+
+      const result = await res.json();
+      setData(result.data?.data ?? []);
+      setTotal(result.data?.total ?? 0);
+    } catch (error) {
+      console.error("Request failed:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/proxy?path=/api/rss_entries/page", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ page, pageSize }),
-        });
+    fetchData(page, sourceId); // 初始加载一次
+  }, []);
 
-        const result = await res.json();
-        console.log("result=======", result);
-        setData(result.data?.data ?? []); // 确保 API 返回 { data: [...] }
-        setTotal(result.data?.total ?? 0);
-        setLoading(false);
-      } catch (error) {
-        console.error("Request failed:", error);
-      }
+  useEffect(() => {
+    const fetchSourcesData = async () => {
+      const res = await fetch("/api/proxy?path=/api/rss_sources/page", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ page: 1, pageSize: 100 }),
+      });
+
+      const result = await res.json();
+      console.log("result=======", result);
+      setSources(result.data?.data); // 确保 API 返回 { data: [...] }
+      // setSourceId(result.data?.data?.[0]?.id);
     };
+    fetchSourcesData();
+  }, []);
 
-    fetchData();
-  }, [page]);
+  const handlePrev = () => {
+    const prevPage = Math.max(page - 1, 1);
+    setPage(prevPage);
+    fetchData(prevPage, sourceId);
+  };
+  const handleNext = () => {
+    const nextPage = Math.max(page + 1, 1);
+    setPage(nextPage);
+    fetchData(nextPage, sourceId);
+  };
 
-  const handlePrev = () => setPage((prev) => Math.max(prev - 1, 1));
-  const handleNext = () => setPage((prev) => Math.min(prev + 1, totalPages));
+  const handleSourceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSource = Number(e.target.value);
+    console.log("newSource", newSource);
+    setSourceId(newSource);
+    setPage(1);
+    fetchData(1, newSource); // 👈 主动请求
+  };
+
+  console.log("sourceId", sourceId);
 
   return (
     <div className="max-w-2xl mx-auto p-4">
       <section className="flex mb-4 items-center justify-between">
         <h1 className="text-xl font-bold ">RSS Entries</h1>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+          <select
+            id="rssSource"
+            value={sourceId ?? ""}
+            onChange={handleSourceChange}
+            className="border rounded px-3 py-2 w-full sm:w-auto text-sm sm:text-base"
+          >
+            <option value="">请选择 RSS 源</option>
+            {sources.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </section>
 
       {loading ? (
