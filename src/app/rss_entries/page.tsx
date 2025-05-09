@@ -50,18 +50,22 @@ export default function RssEntriesPage() {
 
   useEffect(() => {
     const fetchSourcesData = async () => {
-      const res = await fetch("/api/proxy?path=/api/rss_sources/page", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ page: 1, pageSize: 100 }),
-      });
+      try {
+        const res = await fetch("/api/proxy?path=/api/rss_sources/page", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ page: 1, pageSize: 100 }),
+        });
 
-      const result = await res.json();
-      console.log("result=======", result);
-      setSources(result.data?.data); // 确保 API 返回 { data: [...] }
-      // setSourceId(result.data?.data?.[0]?.id);
+        const result = await res.json();
+        console.log("result=======", result);
+        setSources(result.data?.data); // 确保 API 返回 { data: [...] }
+      } catch (error) {
+        console.error("Request failed:", error);
+        setSources([]);
+      }
     };
     fetchSourcesData();
   }, []);
