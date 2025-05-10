@@ -7,4 +7,48 @@ date: "2025-05-10"
 
 欢迎来到我的 `Next.js` 博客！
 
-> hhhhhhhhh
+> 明月松间照、清泉石上流。
+
+```js
+function hello() {
+  console.log("Hi!");
+}
+```
+
+![test image](/man.jpg)
+
+::: tip
+做人如果没有梦想，跟咸鱼有什么分别？
+:::
+
+:::danger
+做人如果没有梦想，跟咸鱼有什么分别？
+:::
+
+:::warning
+做人如果没有梦想，跟咸鱼有什么分别？
+:::
+
+# Heading1
+
+## Heading2
+
+### Heading3
+
+#### Heading4
+
+##### Heading5
+
+###### Heading6
+
+- First item
+- Second item
+- Third item
+
+1. First item
+2. Second item
+3. Third item
+
+- [x] First item
+- [ ] Second item
+- [ ] Third item

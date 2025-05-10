@@ -31,3 +31,13 @@ NEXT_PUBLIC_BASE_API_URL=http://localhost:3000
 3. `.env.local`（当 `NODE_ENV` 为 `test` 时不检查。）
 4. `.env.$(NODE_ENV)`
 5. `.env`
+
+[x] 自定义标题、代码高亮、图片样式、blockquote 等
+
+[ ] :::danger 会被映射为
+[ ] MDX 中可嵌入任意组件（如视频、图表等）
+[ ] toc.ts 自动生成目录（基于 h2 / h3）
+[ ] 支持 tag、category 页面
+[ ] 评论系统（Giscus 或 Cusdis）
+[ ] 动态 sitemap、RSS Feed
+[ ] 字体：复古 serif +现代 mono 组合

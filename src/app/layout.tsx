@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import "./globals.css";
-import "./markdown.css";
+import "@/styles/globals.css";
+import "@/styles/markdown.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
