@@ -1,3 +1,4 @@
+import { getPost } from "@/utils/mdx";
 import { getPostContent, getPostSlugs } from "@/utils/posts";
 import { notFound } from "next/navigation";
 
@@ -15,6 +16,7 @@ export async function generateStaticParams() {
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
   const post = await getPostContent(slug);
+  const { content, frontmatter } = await getPost(slug);
 
   if (!post) return notFound();
 
@@ -22,7 +24,7 @@ export default async function PostPage({ params }: Props) {
     <article className="markdown prose prose-neutral dark:prose-invert mx-auto py-10">
       <h1>{post.meta.title}</h1>
       <p className="text-gray-500 text-sm">{post.meta.date}</p>
-      <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+      {content}
     </article>
   );
 }
