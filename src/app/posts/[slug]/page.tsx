@@ -19,7 +19,7 @@ export default async function PostPage({ params }: Props) {
   if (!post) return notFound();
 
   return (
-    <article className="prose prose-neutral dark:prose-invert mx-auto py-10">
+    <article className="markdown prose prose-neutral dark:prose-invert mx-auto py-10">
       <h1>{post.meta.title}</h1>
       <p className="text-gray-500 text-sm">{post.meta.date}</p>
       <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} />

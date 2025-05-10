@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./markdown.css";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "✨星星之火",
@@ -16,7 +18,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navigation />
-        <main className="min-h-screen bg-gray-50">{children}</main>
+        <main className="min-h-screen container bg-gray-50 m-auto">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );
