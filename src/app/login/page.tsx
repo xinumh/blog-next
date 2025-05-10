@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { setCookie } from "@/utils/cookie";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -52,6 +53,14 @@ export default function LoginPage() {
           required
           className="border px-3 py-2 rounded"
         />
+        <div className="flex justify-between text-sm text-gray-600">
+          <Link
+            href="/forgot_password"
+            className="hover:underline text-blue-600"
+          >
+            忘记密码？
+          </Link>
+        </div>
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
