@@ -2,6 +2,7 @@
 import { visit } from "unist-util-visit";
 
 export function remarkCustomNotes() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (tree: any) => {
     visit(tree, (node) => {
       if (
