@@ -3,7 +3,7 @@ import { getPostContent, getPostSlugs } from "@/utils/posts";
 import { notFound } from "next/navigation";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
