@@ -33,3 +33,13 @@ export async function getPostContent(slug: string) {
     contentHtml,
   };
 }
+
+export const getExcerpt = (content: string, length = 100) => {
+  // 移除 Markdown 语法（如 ##、** 等）
+  const plainText = content
+    .replace(/[#*`\[\]]/g, "") // 移除部分 Markdown 符号
+    .replace(/\s+/g, " ") // 合并多个空格
+    .trim();
+
+  return plainText.slice(0, length) + (plainText.length > length ? "..." : "");
+};

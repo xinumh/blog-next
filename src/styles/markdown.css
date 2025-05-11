@@ -7,6 +7,10 @@
   font-size: 0.9em;
 }
 
+.markdown p {
+  line-height: 2;
+}
+
 .markdown pre {
   background-color: #0f172a;
   color: #f8fafc;
@@ -23,14 +27,15 @@
   font-size: 0.95em;
 }
 
-/* .markdown blockquote {
+.markdown blockquote {
   border-left: 4px solid #d1d5db;
   padding-left: 1em;
-  color: #6b7280;
   font-style: italic;
-  background-color: #f9fafb;
-  margin: 1.5rem 0;
-} */
+  background-color: var(--background);
+  opacity: 0.5;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
 
 .markdown img {
   display: block;

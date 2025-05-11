@@ -47,7 +47,7 @@ export default function RssPage() {
     <div>
       <form
         onSubmit={handleSubmit}
-        className="max-w-md mx-auto space-y-4 p-6 bg-white rounded-lg shadow-md"
+        className="max-w-md mx-auto space-y-4 p-6  rounded-lg shadow-md"
       >
         <div>
           <label

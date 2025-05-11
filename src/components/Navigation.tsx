@@ -4,12 +4,12 @@ import { useRouter, usePathname } from "next/navigation";
 import clsx from "clsx";
 import { useState, useEffect } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
+import Link from "next/link";
 
 const navItems = [
   { label: "Home", path: "/" },
-  { label: "About", path: "/about" },
-  { label: "Services", path: "/services" },
-  { label: "Contact", path: "/contact" },
+  { label: "posts", path: "/posts" },
   { label: "RSS_Entries", path: "/rss_entries" },
   { label: "RSS_Sources", path: "/rss_source" },
 ];
@@ -43,32 +43,36 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="bg-white shadow-md relative">
+    <nav className="shadow-md relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <div className="text-xl font-bold font-serif">Ashin&apos;blog</div>
+          <Link className="text-xl font-bold font-serif" href="/">
+            Ashin&apos;blog
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="space-x-4 hidden md:flex">
+          <ul className="space-x-4 hidden md:flex">
             {navItems.map((item) => (
-              <button
+              <li
                 key={item.path}
                 onClick={() => handleNavClick(item.path)}
                 className={clsx(
-                  "text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 transition",
-                  pathname === item.path && "bg-gray-200 font-semibold"
+                  " px-3 py-2 cursor-pointer  rounded-md text-sm font-medium hover:bg-[var(--nav-hover-bg)] transition",
+                  pathname === item.path &&
+                    "bg-[var(--nav-selected-hover-bg)] font-semibold"
                 )}
               >
                 {item.label}
-              </button>
+              </li>
             ))}
-          </div>
+            <ThemeSwitcher />
+          </ul>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
+          <ul className="md:hidden">
+            <li
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none"
+              className="inline-flex cursor-pointer items-center justify-center p-2 rounded-md hover:bg-[var(--nav-hover-bg)] focus:outline-none"
               aria-label="Toggle menu"
             >
               {isOpen ? (
@@ -76,14 +80,14 @@ export default function Navigation() {
               ) : (
                 <Bars3Icon className="h-6 w-6" />
               )}
-            </button>
-          </div>
+            </li>
+          </ul>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white shadow-lg absolute w-full z-10">
+        <div className="md:hidden bg-[var(--background)] shadow-lg absolute w-full z-10">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navItems.map((item) => (
               <button
@@ -92,13 +96,17 @@ export default function Navigation() {
                 className={clsx(
                   "block w-full text-left px-3 py-2 rounded-md text-base font-medium",
                   pathname === item.path
-                    ? "bg-gray-200 text-gray-900 font-semibold"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? " font-semibold"
+                    : " hover:bg-gray-100 dark:hover:bg-gray-800"
                 )}
               >
                 {item.label}
               </button>
             ))}
+          </div>
+          {/* Add ThemeSwitcher in mobile menu */}
+          <div className="border-t mt-2 pt-2 px-3">
+            <ThemeSwitcher />
           </div>
         </div>
       )}
