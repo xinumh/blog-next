@@ -27,7 +27,7 @@
   font-size: 0.95em;
 }
 
-.markdown blockquote {
+/* .markdown blockquote {
   border-left: 4px solid #d1d5db;
   padding-left: 1em;
   font-style: italic;
@@ -35,7 +35,7 @@
   opacity: 0.5;
   font-family: Georgia, serif;
   line-height: 1;
-}
+} */
 
 .markdown img {
   display: block;
@@ -96,4 +96,18 @@
 .markdown ol li {
   list-style: decimal;
   margin-bottom: 0.5rem;
+}
+/* table */
+.markdown table {
+  @apply w-full my-8 text-left border-collapse;
+  thead,
+  tbody tr:not(:last-child) {
+    @apply border-b border-slate-200/50;
+  }
+  th {
+    @apply p-2.5 whitespace-nowrap;
+  }
+  td {
+    @apply p-2.5;
+  }
 }

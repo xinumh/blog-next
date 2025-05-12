@@ -7,6 +7,9 @@ module.exports = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        success: "#0070f3",
+        cyan: "#79FFE1",
+        primary: "#6366f1",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "sans-serif"],

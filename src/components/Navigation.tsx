@@ -8,7 +8,6 @@ import ThemeSwitcher from "@/components/ThemeSwitcher";
 import Link from "next/link";
 
 const navItems = [
-  { label: "Home", path: "/" },
   { label: "posts", path: "/posts" },
   { label: "RSS_Entries", path: "/rss_entries" },
   { label: "RSS_Sources", path: "/rss_source" },
@@ -44,7 +43,7 @@ export default function Navigation() {
 
   return (
     <nav className="shadow-md relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link className="text-xl font-bold font-serif" href="/">
             Ashin&apos;blog
@@ -94,7 +93,7 @@ export default function Navigation() {
                 key={item.path}
                 onClick={() => handleNavClick(item.path)}
                 className={clsx(
-                  "block w-full text-left px-3 py-2 rounded-md text-base font-medium",
+                  "block w-full text-left px-3 py-2  rounded-md text-base font-medium",
                   pathname === item.path
                     ? " font-semibold"
                     : " hover:bg-gray-100 dark:hover:bg-gray-800"

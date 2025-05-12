@@ -9,6 +9,7 @@ interface Props {
   className?: string;
 }
 
+const isShow = false;
 export default function ThemeSwitcher({ className = "" }: Props) {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -19,7 +20,7 @@ export default function ThemeSwitcher({ className = "" }: Props) {
 
   const isDark = theme === "dark";
 
-  return (
+  return isShow ? (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label="Toggle Dark Mode"
@@ -27,5 +28,5 @@ export default function ThemeSwitcher({ className = "" }: Props) {
     >
       {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
     </button>
-  );
+  ) : null;
 }

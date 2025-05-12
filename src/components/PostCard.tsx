@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-export default function BlogCard({
+export default function PostCard({
   title,
   date,
   excerpt,
@@ -14,10 +14,7 @@ export default function BlogCard({
   slug: string;
 }) {
   return (
-    <motion.article
-      whileHover={{ y: -5 }}
-      className="p-6 mb-8 border-l-4 shadow-sm"
-    >
+    <motion.article whileHover={{ y: -5 }} className="p-6 mb-8 shadow-sm">
       <span className="text-sm">{date}</span>
       <h2 className="text-2xl font-serif mt-2 mb-4">
         <Link href={`/posts/${slug}`} className="hover:underline">

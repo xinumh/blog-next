@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f5f0;
+  --background: #f0f0f0;
   --foreground: #2c2b1f;
   --font-sans: "Geist Sans", sans-serif;
   --font-mono: "Geist Mono", monospace;
@@ -16,6 +16,7 @@
   --nav-selected-hover-bg: #374151;
 }
 
+/* 系统主题识别 */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -28,4 +29,16 @@ html {
   color: var(--foreground);
   font-family: var(--font-sans);
   transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+  padding: 10px;
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1); /* 模拟纸张的阴影效果 */
+  border-radius: 5px;
+  width: 80%;
+  max-width: 800px;
+}
+
+hr {
+  border-top-color: #ededed;
 }
