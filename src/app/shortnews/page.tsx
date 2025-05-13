@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { RssSourcesType } from "../rss_source/page";
-import { BasicLayout } from "@/components/Layout";
 
 type RssEntriesType = {
   id: number;
@@ -93,9 +92,9 @@ export default function RssEntriesPage() {
   console.log("sourceId", sourceId);
 
   return (
-    <BasicLayout>
+    <>
       <section className=" flex mb-4 items-center justify-between">
-        <h1 className="text-xl font-bold ">RSS Entries</h1>
+        <h1 className="text-xl font-bold ">Short News</h1>
         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
           <select
             id="rssSource"
@@ -162,6 +161,6 @@ export default function RssEntriesPage() {
           </div>
         </>
       )}
-    </BasicLayout>
+    </>
   );
 }

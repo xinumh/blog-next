@@ -8,7 +8,7 @@ const PostList = async () => {
   const posts = await Promise.all(slugs.map((slug) => getPostBySlug(slug)));
 
   return (
-    <div>
+    <div className="bg-[var(--background)] min-h-screen">
       {posts.map((post, idx) => {
         if (!post) return null;
         const slug = slugs[idx];

@@ -1,5 +1,5 @@
 import { getPostBySlug, getPostSlugs } from "@/utils/posts";
-import { Calendar } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -28,13 +28,11 @@ export default async function PostPage({ params }: Props) {
     <article className="markdown prose prose-neutral dark:prose-invert mx-auto px-4">
       <h1>{frontmatter.title}</h1>
       <div className="text-sm leading-6 mt-4 flex items-center">
-        <Calendar className="text-gray-400 " size={18} />
-
-        <dd className="text-sm">
-          <time dateTime={frontmatter.date?.toString()}>
-            {frontmatter.date}
-          </time>
-        </dd>
+        {/* <Calendar className="text-gray-400 " size={18} /> */}
+        <CalendarDays size={18} className="text-gray-400 -top-px" />
+        <time className="pl-1" dateTime={frontmatter.date?.toString()}>
+          {frontmatter.date}
+        </time>
       </div>
       {frontmatter.heroImage && (
         <div className="relative not-prose my-[2em] first:mt-0 last:mb-0 rounded-2xl overflow-hidden">

@@ -9,7 +9,7 @@ export default function PostLayout({
   return (
     <div>
       <Navigation />
-      <main className="min-h-screen max-w-3xl m-auto my-6 container-paper">
+      <main className="min-h-screen max-w-3xl m-auto py-6 px-3">
         {children}
       </main>
       <Footer />

@@ -4,12 +4,12 @@ import { useRouter, usePathname } from "next/navigation";
 import clsx from "clsx";
 import { useState, useEffect } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import ThemeSwitcher from "@/components/ThemeSwitcher";
 import Link from "next/link";
+import MobileNav from "./MobileNav";
 
 const navItems = [
   { label: "posts", path: "/posts" },
-  { label: "RSS_Entries", path: "/rss_entries" },
+  { label: "shortnews", path: "/shortnews" },
   { label: "RSS_Sources", path: "/rss_source" },
 ];
 
@@ -64,9 +64,7 @@ export default function Navigation() {
                 {item.label}
               </li>
             ))}
-            <ThemeSwitcher />
           </ul>
-
           {/* Mobile Menu Button */}
           <ul className="md:hidden">
             <li
@@ -83,31 +81,13 @@ export default function Navigation() {
           </ul>
         </div>
       </div>
-
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-[var(--background)] shadow-lg absolute w-full z-10">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navItems.map((item) => (
-              <button
-                key={item.path}
-                onClick={() => handleNavClick(item.path)}
-                className={clsx(
-                  "block w-full text-left px-3 py-2  rounded-md text-base font-medium",
-                  pathname === item.path
-                    ? " font-semibold"
-                    : " hover:bg-gray-100 dark:hover:bg-gray-800"
-                )}
-              >
-                {item.label}
-              </button>
-            ))}
-          </div>
-          {/* Add ThemeSwitcher in mobile menu */}
-          <div className="border-t mt-2 pt-2 px-3">
-            <ThemeSwitcher />
-          </div>
-        </div>
+        <MobileNav
+          navItems={navItems}
+          pathname={pathname}
+          onClick={handleNavClick}
+        />
       )}
     </nav>
   );

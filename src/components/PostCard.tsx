@@ -12,7 +12,10 @@ const PostCard = ({
   frontmatter: { date: string; title: string };
 }) => {
   return (
-    <motion.article whileHover={{ y: -5 }} className="p-6 mb-8 shadow-sm">
+    <motion.article
+      whileHover={{ y: -5 }}
+      className="p-6 mb-8 shadow-sm rounded-[16px]"
+    >
       <span className="text-sm">{frontmatter.date}</span>
       <h2 className="text-2xl font-serif mt-2 mb-4">{frontmatter.title}</h2>
       <div className="mt-4 flex justify-end">
