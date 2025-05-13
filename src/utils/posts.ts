@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
+import { compileMDX } from "next-mdx-remote/rsc";
+import { mdxComponents } from "@/components/mdx-components";
+import remarkDirective from "remark-directive";
+import { remarkCustomNotes } from "./remark-note-plugin";
 
 console.log("process.cwd()", process.cwd());
 
@@ -12,27 +13,38 @@ export function getPostSlugs() {
   return fs.readdirSync(postsDirectory);
 }
 
-export function getPostBySlug(slug: string) {
+export async function getPostBySlug(slug: string) {
   const realSlug = slug.replace(/\.mdx$/, "");
-  console.log("realSlug", realSlug);
-  const fullPath = path.join(postsDirectory, `${realSlug}.mdx`);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
-  const { data, content } = matter(fileContents);
-  return {
-    slug: realSlug,
-    meta: data,
-    content,
-  };
-}
-
-export async function getPostContent(slug: string) {
-  const { content, ...rest } = getPostBySlug(slug);
-  const processedContent = await remark().use(html).process(content);
-  const contentHtml = processedContent.toString();
-  return {
-    ...rest,
-    contentHtml,
-  };
+  const fullPath = path.join(
+    postsDirectory,
+    slug.endsWith(".mdx") ? slug : `${slug}.mdx` // 自动处理两种情况
+  );
+  if (!fs.existsSync(fullPath)) {
+    console.warn(`Post not found: ${realSlug}`);
+    return null; // 或者 undefined，取决于你的需求
+  }
+  try {
+    const source = fs.readFileSync(fullPath, "utf8");
+    const { content, frontmatter } = await compileMDX<{
+      heroImage: string;
+      date: string;
+      title: string;
+    }>({
+      source,
+      components: mdxComponents,
+      options: {
+        parseFrontmatter: true,
+        mdxOptions: {
+          remarkPlugins: [remarkDirective, remarkCustomNotes],
+          rehypePlugins: [],
+        },
+      },
+    });
+    return { content, frontmatter };
+  } catch (error) {
+    console.error(`Error reading post ${realSlug}:`, error);
+    return null;
+  }
 }
 
 export const getExcerpt = (content: string, length = 100) => {

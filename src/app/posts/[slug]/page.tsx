@@ -1,5 +1,6 @@
-import { getPost } from "@/utils/mdx";
-import { getPostContent, getPostSlugs } from "@/utils/posts";
+import { getPostBySlug, getPostSlugs } from "@/utils/posts";
+import { Calendar } from "lucide-react";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
 type Props = {
@@ -15,15 +16,37 @@ export async function generateStaticParams() {
 
 export default async function PostPage({ params }: Props) {
   const { slug } = await params;
-  const post = await getPostContent(slug);
-  const { content } = await getPost(slug);
+  console.log("🚀 ~ PostPage ~ slug:", slug);
 
+  const post = await getPostBySlug(slug);
+  console.log("🚀 ~ PostPage ~ post:", post);
   if (!post) return notFound();
+  const { content, frontmatter } = post;
+  console.log("frontmatter", frontmatter);
 
   return (
-    <article className="markdown prose prose-neutral dark:prose-invert mx-auto py-10 px-4">
-      <h1>{post.meta.title}</h1>
-      <p className="text-sm">{post.meta.date}</p>
+    <article className="markdown prose prose-neutral dark:prose-invert mx-auto px-4">
+      <h1>{frontmatter.title}</h1>
+      <div className="text-sm leading-6 mt-4 flex items-center">
+        <Calendar className="text-gray-400 " size={18} />
+
+        <dd className="text-sm">
+          <time dateTime={frontmatter.date?.toString()}>
+            {frontmatter.date}
+          </time>
+        </dd>
+      </div>
+      {frontmatter.heroImage && (
+        <div className="relative not-prose my-[2em] first:mt-0 last:mb-0 rounded-2xl overflow-hidden">
+          <Image
+            width={800}
+            height={200}
+            src={frontmatter.heroImage}
+            alt="hero_image"
+          />
+        </div>
+      )}
+
       {content}
     </article>
   );

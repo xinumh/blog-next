@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import "@/styles/globals.css";
 import "@/styles/markdown.css";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "✨星星之火",
@@ -19,11 +17,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Navigation />
-          <main className="min-h-screen container m-auto max-w-[70rem]">
-            {children}
-          </main>
-          <Footer />
+          {children}
         </ThemeProvider>
       </body>
     </html>

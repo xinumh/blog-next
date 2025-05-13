@@ -1,12 +1,28 @@
+import { getPostBySlug, getPostSlugs } from "@/utils/posts";
 import React from "react";
-import PostList from "@/components/PostList";
+import PostCard from "@/components/PostCard";
 
-const PostsPage = () => {
+const PostList = async () => {
+  const slugs = getPostSlugs();
+  console.log("🚀 ~ PostList ~ slugs:", slugs);
+  const posts = await Promise.all(slugs.map((slug) => getPostBySlug(slug)));
+
   return (
-    <div className="m-auto py-6">
-      <PostList />
+    <div>
+      {posts.map((post, idx) => {
+        if (!post) return null;
+        const slug = slugs[idx];
+        return (
+          <PostCard
+            key={slug}
+            slug={slug}
+            content={post.content}
+            frontmatter={post.frontmatter}
+          />
+        );
+      })}
     </div>
   );
 };
 
-export default PostsPage;
+export default PostList;
