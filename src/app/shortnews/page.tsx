@@ -100,7 +100,17 @@ export default function RssEntriesPage() {
             id="rssSource"
             value={sourceId ?? ""}
             onChange={handleSourceChange}
-            className="border rounded px-3 py-2 w-full sm:w-auto text-sm sm:text-base"
+            className="
+              w-full sm:w-auto
+              px-3 py-2
+              text-sm sm:text-base
+              border border-gray-300 rounded-lg
+              shadow-sm
+              focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+              transition-all
+              hover:border-gray-400
+              cursor-pointer
+            "
           >
             <option value="">可选择 RSS 源</option>
             {sources.map((item) => (
@@ -120,7 +130,7 @@ export default function RssEntriesPage() {
             {data.map((entry) => (
               <div
                 key={entry.id}
-                className="p-4 border rounded-md shadow-sm hover:bg-gray-50"
+                className="p-4 border-dashed rounded-md shadow-sm hover:bg-gray-50"
               >
                 <a
                   href={entry.link || "#"}
