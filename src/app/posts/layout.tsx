@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Header/Navigation";
 
-export default function PostLayout({
+export default function PostListLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -9,9 +9,7 @@ export default function PostLayout({
   return (
     <div>
       <Navigation />
-      <main className="min-h-screen max-w-3xl m-auto my-6 container-paper">
-        {children}
-      </main>
+      <main className="min-h-screen max-w-3xl m-auto">{children}</main>
       <Footer />
     </div>
   );

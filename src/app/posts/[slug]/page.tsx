@@ -35,7 +35,7 @@ export default async function PostPage({ params }: Props) {
         </time>
       </div>
       {frontmatter.heroImage && (
-        <div className="relative not-prose my-[2em] first:mt-0 last:mb-0 rounded-2xl overflow-hidden">
+        <div className="relative not-prose first:mt-0 last:mb-0 rounded-2xl overflow-hidden">
           <Image
             width={800}
             height={200}

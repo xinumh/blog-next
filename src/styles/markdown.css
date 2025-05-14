@@ -27,7 +27,7 @@
   font-size: 0.95em;
 }
 
-/* .markdown blockquote {
+.markdown blockquote {
   border-left: 4px solid #d1d5db;
   padding-left: 1em;
   font-style: italic;
@@ -35,13 +35,16 @@
   opacity: 0.5;
   font-family: Georgia, serif;
   line-height: 1;
-} */
+  margin: 10px 0px;
+}
 
 .markdown img {
   display: block;
   margin: 2rem auto;
   max-width: 100%;
-  border-radius: 8px;
+  /* border-radius: 2px; */
+  /* border-color: #efe9e9; */
+  /* border-width: 2px; */
   /* box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1); */
 }
 

@@ -4,7 +4,7 @@ export default function PostLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen max-w-3xl m-auto py-6 px-3 container-paper">
+    <main className="min-h-screen max-w-3xl m-auto py-8 container-paper">
       {children}
     </main>
   );

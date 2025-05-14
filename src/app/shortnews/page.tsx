@@ -102,7 +102,7 @@ export default function RssEntriesPage() {
             onChange={handleSourceChange}
             className="border rounded px-3 py-2 w-full sm:w-auto text-sm sm:text-base"
           >
-            <option value="">请选择 RSS 源</option>
+            <option value="">可选择 RSS 源</option>
             {sources.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
