@@ -61,7 +61,7 @@ export default function RssEntriesPage() {
 
         const result = await res.json();
         console.log("result=======", result);
-        setSources(result.data?.data); // 确保 API 返回 { data: [...] }
+        setSources(result?.data?.data || []); // 确保 API 返回 { data: [...] }
       } catch (error) {
         console.error("Request failed:", error);
         setSources([]);
@@ -112,7 +112,7 @@ export default function RssEntriesPage() {
             "
           >
             <option value="">可选择 RSS 源</option>
-            {sources.map((item) => (
+            {sources?.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
               </option>
