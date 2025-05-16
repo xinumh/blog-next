@@ -19,6 +19,19 @@ export default function RssSourcesPage() {
 
   const totalPages = Math.ceil(total / pageSize);
 
+  const fetchRssSync = async (url: string) => {
+    const res = await fetch("/api/proxy?path=/api/rss_sources/rssSyncSingle", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    const result = await res.json();
+    console.log("result=======", result);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -58,7 +71,11 @@ export default function RssSourcesPage() {
         <>
           <ul className="space-y-2">
             {data.map((item, index) => (
-              <li key={index} className="p-3 border rounded">
+              <li
+                key={index}
+                className="p-3 border rounded"
+                onClick={() => fetchRssSync(item.url)}
+              >
                 {item.name} – {item.description}
               </li>
             ))}

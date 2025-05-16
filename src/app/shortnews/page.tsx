@@ -6,7 +6,7 @@ import { RssSourcesType } from "../rss_source/page";
 type RssEntriesType = {
   id: number;
   title: string;
-  title_zh?: string;
+  titleZh?: string;
   link: string;
   description: string;
 };
@@ -140,9 +140,9 @@ export default function RssEntriesPage() {
                   📌 {entry.title}
                 </a>
 
-                {entry.title_zh && (
+                {entry.titleZh && (
                   <p className="text-gray-700 mt-1 text-sm">
-                    🔹 {entry.title_zh}
+                    🔹 {entry.titleZh}
                   </p>
                 )}
               </div>
