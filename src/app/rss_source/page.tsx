@@ -45,8 +45,8 @@ export default function RssSourcesPage() {
 
       const result = await res.json();
       console.log("result=======", result);
-      setData(result.data?.data); // 确保 API 返回 { data: [...] }
-      setTotal(result.data?.total);
+      setData(result?.data?.data || []); // 确保 API 返回 { data: [...] }
+      setTotal(result?.data?.total || 0);
       setLoading(false);
     };
 
