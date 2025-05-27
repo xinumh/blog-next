@@ -1,67 +1,121 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { RssSourcesType } from "../rss_source/page";
+import { groupByDate, mergeGroupedRecords } from "@/utils/groupnews";
+import { BookPlus } from "lucide-react";
+import Link from "next/link";
+import { apiRequest } from "@/utils/request";
 
-type RssEntriesType = {
+export type RssEntriesType = {
   id: number;
   title: string;
   titleZh?: string;
   link: string;
   description: string;
+  createdAt: string;
+  pubDate: string;
 };
 
 export default function RssEntriesPage() {
-  const [data, setData] = useState<RssEntriesType[]>([]);
+  const [groupData, setGroupData] = useState<Map<string, RssEntriesType[]>>(
+    new Map()
+  );
   const [sources, setSources] = useState<RssSourcesType[]>([]);
   const [sourceId, setSourceId] = useState<number>();
-  const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const [page, setPage] = useState(1);
-  const pageSize = 10;
+  const pageSize = 20;
 
-  const totalPages = Math.ceil(total / pageSize);
+  const fetchData = useCallback(
+    async (page: number, source: unknown) => {
+      setLoading(true);
+      try {
+        const result = await apiRequest<{
+          page: number;
+          pageSize: number;
+          data: RssEntriesType[];
+          total: number;
+        }>("/api/proxy?path=/api/rss_entries/page", {
+          page,
+          pageSize,
+          sourceId: source,
+        });
 
-  const fetchData = async (page: number, source: unknown) => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/proxy?path=/api/rss_entries/page", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ page, pageSize, sourceId: source }),
-      });
-
-      const result = await res.json();
-      setData(result.data?.data ?? []);
-      setTotal(result.data?.total ?? 0);
-    } catch (error) {
-      console.error("Request failed:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        const resData = result.data ?? [];
+        const group =
+          page === 1
+            ? groupByDate(resData)
+            : mergeGroupedRecords(groupData, resData);
+        setGroupData(group);
+        setHasMore(page * pageSize < result?.total);
+      } catch (error) {
+        console.error("Request failed:", error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [groupData]
+  );
 
   useEffect(() => {
     fetchData(page, sourceId); // 初始加载一次
   }, []);
 
+  // 使用 IntersectionObserver 检测“加载更多”触底
+  useEffect(() => {
+    if (!loaderRef.current || !hasMore || loading) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          const nextPage = Math.max(page + 1, 1);
+          setPage(nextPage);
+          fetchData(nextPage, sourceId);
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    observer.observe(loaderRef.current);
+
+    return () => observer.disconnect();
+  }, [fetchData, hasMore, loading, page, sourceId]);
+
+  // const fetchDetail = async (id: number) => {
+  //   try {
+  //     const res = await fetch("/api/proxy?path=/api/rss_entries/detail", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ id }),
+  //     });
+
+  //     const result = await res.json();
+  //     console.log("result", result);
+  //   } catch (error) {
+  //     console.error("Request failed:", error);
+  //   }
+  // };
+
   useEffect(() => {
     const fetchSourcesData = async () => {
       try {
-        const res = await fetch("/api/proxy?path=/api/rss_sources/page", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+        const result = await apiRequest<{
+          page: number;
+          pageSize: number;
+          data: RssSourcesType[];
+          total: number;
+        }>("/api/proxy?path=/api/rss_sources/page", {
           body: JSON.stringify({ page: 1, pageSize: 100 }),
         });
 
-        const result = await res.json();
         console.log("result=======", result);
-        setSources(result?.data?.data || []); // 确保 API 返回 { data: [...] }
+        setSources(result?.data || []); // 确保 API 返回 { data: [...] }
       } catch (error) {
         console.error("Request failed:", error);
         setSources([]);
@@ -69,17 +123,6 @@ export default function RssEntriesPage() {
     };
     fetchSourcesData();
   }, []);
-
-  const handlePrev = () => {
-    const prevPage = Math.max(page - 1, 1);
-    setPage(prevPage);
-    fetchData(prevPage, sourceId);
-  };
-  const handleNext = () => {
-    const nextPage = Math.max(page + 1, 1);
-    setPage(nextPage);
-    fetchData(nextPage, sourceId);
-  };
 
   const handleSourceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newSource = Number(e.target.value);
@@ -89,13 +132,15 @@ export default function RssEntriesPage() {
     fetchData(1, newSource); // 👈 主动请求
   };
 
-  console.log("sourceId", sourceId);
-
   return (
     <>
       <section className=" flex mb-4 items-center justify-between">
         <h1 className="text-xl font-bold ">Short News</h1>
         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+          <Link href="/rss_source">
+            <BookPlus className="text-blue-500" />
+          </Link>
+
           <select
             id="rssSource"
             value={sourceId ?? ""}
@@ -121,55 +166,42 @@ export default function RssEntriesPage() {
         </div>
       </section>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <div className="space-y-6">
-            {data.map((entry) => (
-              <div
-                key={entry.id}
-                className="p-4 border-dashed rounded-md shadow-sm hover:bg-gray-50"
-              >
-                <a
-                  href={entry.link || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 font-semibold text-lg hover:underline"
-                >
-                  📌 {entry.title}
-                </a>
+      <div className="space-y-6">
+        {groupData &&
+          Array.from(groupData.entries()).map(([date, list]) => (
+            <div key={date}>
+              <h3>{date}</h3>
+              <ul>
+                {list.map((entry: RssEntriesType) => (
+                  <li
+                    key={entry.id}
+                    className="p-4 border-dashed rounded-md shadow-sm hover:bg-gray-50"
+                    // onClick={() => fetchDetail(entry.id)}
+                  >
+                    <a
+                      href={entry.link || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 font-semibold text-lg hover:underline"
+                    >
+                      📌 {entry.title}
+                    </a>
 
-                {entry.titleZh && (
-                  <p className="text-gray-700 mt-1 text-sm">
-                    🔹 {entry.titleZh}
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
+                    {entry.titleZh && (
+                      <p className="text-gray-700 mt-1 text-sm">
+                        🔹 {entry.titleZh}
+                      </p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+      </div>
 
-          <div className="flex justify-between mt-6 items-center">
-            <button
-              onClick={handlePrev}
-              disabled={page === 1}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Previous
-            </button>
-            <span>
-              Page {page} of {totalPages}
-            </span>
-            <button
-              onClick={handleNext}
-              disabled={page === totalPages}
-              className="px-3 py-1 border rounded disabled:opacity-50"
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
+      <div ref={loaderRef} className="py-4 text-center text-gray-500">
+        {loading ? "加载中..." : hasMore ? "滑动加载更多" : "没有更多了"}
+      </div>
     </>
   );
 }

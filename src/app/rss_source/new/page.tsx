@@ -1,13 +1,13 @@
 "use client";
-import { getCookie } from "@/utils/cookie";
+import { getErrorMessage } from "@/utils/error";
+import { apiRequest } from "@/utils/request";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function RssPage() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
   const router = useRouter();
-  const token = getCookie("token");
 
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
@@ -19,26 +19,16 @@ export default function RssPage() {
     const description = formData.get("description");
     const url = formData.get("url");
     try {
-      const res = await fetch("/api/proxy?path=/api/rss_sources/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // 标准做法，格式是 Bearer + 空格 + token
-        },
-        body: JSON.stringify({ name, url, description }),
+      await apiRequest("/api/proxy?path=/api/rss_sources/create", {
+        name,
+        url,
+        description,
       });
 
-      const result = await res.json();
-      if (result.code == 200) {
-        router.push("/rss_source"); // 跳转到某个页面
-      } else {
-        setError(result?.message || "请求失败");
-      }
-
-      console.log(result);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err?.message || "请求失败");
+      router.push("/rss_source"); // 跳转到某个页面
+    } catch (err) {
+      setError(getErrorMessage(err));
+      console.log("err", err);
     } finally {
       setLoading(false);
     }

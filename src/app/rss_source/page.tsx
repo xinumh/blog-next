@@ -1,5 +1,8 @@
 "use client";
 
+import { apiRequest } from "@/utils/request";
+import clsx from "clsx";
+import { RefreshCcw, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export type RssSourcesType = {
@@ -11,54 +14,48 @@ export type RssSourcesType = {
 
 export default function RssSourcesPage() {
   const [data, setData] = useState<RssSourcesType[]>([]);
-  const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [syncLoadingId, setSyncLoadingId] = useState<number | null>(null);
 
-  const [page, setPage] = useState(1);
-  const pageSize = 10;
+  const page = 1;
+  const pageSize = 100;
 
-  const totalPages = Math.ceil(total / pageSize);
+  const fetchRssSync = async (row: RssSourcesType) => {
+    const { url, id } = row;
+    setSyncLoadingId(id);
 
-  const fetchRssSync = async (url: string) => {
-    const res = await fetch("/api/proxy?path=/api/rss_sources/rssSyncSingle", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ url }),
-    });
-
-    const result = await res.json();
-    console.log("result=======", result);
+    try {
+      await apiRequest("/api/proxy?path=/api/rss_sources/rssSyncSingle", {
+        url,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSyncLoadingId(null);
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const res = await fetch("/api/proxy?path=/api/rss_sources/page", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ page, pageSize }),
-      });
+      const res = await apiRequest<{
+        page: number;
+        pageSize: number;
+        data: RssSourcesType[];
+        total: number;
+      }>("/api/proxy?path=/api/rss_sources/page", { page, pageSize });
 
-      const result = await res.json();
-      console.log("result=======", result);
-      setData(result?.data?.data || []); // 确保 API 返回 { data: [...] }
-      setTotal(result?.data?.total || 0);
+      console.log("res=======", res);
+      setData(res.data ?? []); // 确保 API 返回 { data: [...] }
       setLoading(false);
     };
 
     fetchData();
-  }, [page]);
-
-  const handlePrev = () => setPage((prev) => Math.max(prev - 1, 1));
-  const handleNext = () => setPage((prev) => Math.min(prev + 1, totalPages));
+  }, []);
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <section className="flex mb-4 items-center justify-between">
+      <section className="flex mb-4 items-center justify-between border-b border-gray-400">
         <h1 className="text-xl font-bold ">RSS Sources</h1>
         <a className="text-blue-500 cursor-pointer" href="/rss_source/new">
           +新增
@@ -68,41 +65,29 @@ export default function RssSourcesPage() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <>
-          <ul className="space-y-2">
-            {data.map((item, index) => (
-              <li
-                key={index}
-                className="p-3 border rounded"
-                onClick={() => fetchRssSync(item.url)}
-              >
-                {item.name} – {item.description}
-              </li>
-            ))}
-          </ul>
-
-          {data?.length > 0 ? (
-            <div className="flex justify-between mt-6 items-center">
-              <button
-                onClick={handlePrev}
-                disabled={page === 1}
-                className="px-3 py-1 border rounded disabled:opacity-50"
-              >
-                Previous
-              </button>
+        <ul className="space-y-2">
+          {data.map((item, index) => (
+            <li
+              key={index}
+              className="p-3 border-b border-gray-300 flex justify-between"
+            >
               <span>
-                Page {page} of {totalPages}
+                {item.name} – {item.description}
               </span>
-              <button
-                onClick={handleNext}
-                disabled={page === totalPages}
-                className="px-3 py-1 border rounded disabled:opacity-50"
-              >
-                Next
-              </button>
-            </div>
-          ) : null}
-        </>
+              <span className="inline-flex">
+                <RefreshCcw
+                  size={18}
+                  onClick={() => fetchRssSync(item)}
+                  className={clsx(
+                    "mr-1 cursor-pointer transition-transform text-blue-500",
+                    syncLoadingId == item.id && "animate-spin"
+                  )}
+                />
+                <Trash2 size={18} className="text-red-500 cursor-pointer" />
+              </span>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );
