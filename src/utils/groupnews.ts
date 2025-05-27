@@ -32,7 +32,7 @@ export function groupByDate(list: RssEntriesType[]) {
   const grouped = new Map<string, RssEntriesType[]>();
 
   for (const item of list) {
-    const label = getDateLabel(item.createdAt);
+    const label = getDateLabel(item.pubDate);
 
     if (!grouped.has(label)) {
       grouped.set(label, []);

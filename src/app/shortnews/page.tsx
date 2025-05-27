@@ -85,23 +85,6 @@ export default function RssEntriesPage() {
     return () => observer.disconnect();
   }, [fetchData, hasMore, loading, page, sourceId]);
 
-  // const fetchDetail = async (id: number) => {
-  //   try {
-  //     const res = await fetch("/api/proxy?path=/api/rss_entries/detail", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ id }),
-  //     });
-
-  //     const result = await res.json();
-  //     console.log("result", result);
-  //   } catch (error) {
-  //     console.error("Request failed:", error);
-  //   }
-  // };
-
   useEffect(() => {
     const fetchSourcesData = async () => {
       try {
@@ -136,9 +119,9 @@ export default function RssEntriesPage() {
     <>
       <section className=" flex mb-4 items-center justify-between">
         <h1 className="text-xl font-bold ">Short News</h1>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+        <div className="flex flex-row items-center gap-2">
           <Link href="/rss_source">
-            <BookPlus className="text-blue-500" />
+            <BookPlus className="text-blue-500 w-6" />
           </Link>
 
           <select
@@ -146,7 +129,7 @@ export default function RssEntriesPage() {
             value={sourceId ?? ""}
             onChange={handleSourceChange}
             className="
-              w-full sm:w-auto
+              w-auto
               px-3 py-2
               text-sm sm:text-base
               border border-gray-300 rounded-lg
@@ -176,7 +159,6 @@ export default function RssEntriesPage() {
                   <li
                     key={entry.id}
                     className="p-4 border-dashed rounded-md shadow-sm hover:bg-gray-50"
-                    // onClick={() => fetchDetail(entry.id)}
                   >
                     <a
                       href={entry.link || "#"}

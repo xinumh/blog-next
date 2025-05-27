@@ -16,6 +16,7 @@ export default function RssSourcesPage() {
   const [data, setData] = useState<RssSourcesType[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncLoadingId, setSyncLoadingId] = useState<number | null>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const page = 1;
   const pageSize = 100;
@@ -33,6 +34,15 @@ export default function RssSourcesPage() {
     } finally {
       setSyncLoadingId(null);
     }
+  };
+
+  const fetchRssDelete = async ({ id: sourceId }: RssSourcesType) => {
+    setDeleteId(sourceId);
+    await apiRequest("/api/proxy?path=/api/rss_sources/delete", {
+      sourceId,
+    }).finally(() => {
+      setDeleteId(null);
+    });
   };
 
   useEffect(() => {
@@ -83,7 +93,14 @@ export default function RssSourcesPage() {
                     syncLoadingId == item.id && "animate-spin"
                   )}
                 />
-                <Trash2 size={18} className="text-red-500 cursor-pointer" />
+                <Trash2
+                  size={18}
+                  className={clsx(
+                    "text-red-500 cursor-pointer",
+                    deleteId == item.id && "animate-spin"
+                  )}
+                  onClick={() => fetchRssDelete(item)}
+                />
               </span>
             </li>
           ))}

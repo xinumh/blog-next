@@ -31,8 +31,6 @@ export async function apiRequest<T = unknown>(
     cache: "no-store",
   });
 
-  console.log("resxxxx", res);
-
   // 如果未授权，重定向到登录页
   if (res.status === 401) {
     window.location.href = "/login";
@@ -40,6 +38,7 @@ export async function apiRequest<T = unknown>(
   }
 
   const json: ApiResponse<T> = await res.json();
+  console.log("json", json);
 
   if (json.code !== 200) {
     throw new Error(json.message || "请求失败");
