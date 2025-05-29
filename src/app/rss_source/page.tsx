@@ -21,6 +21,24 @@ export default function RssSourcesPage() {
   const page = 1;
   const pageSize = 100;
 
+  const fetchData = async () => {
+    setLoading(true);
+    const res = await apiRequest<{
+      page: number;
+      pageSize: number;
+      data: RssSourcesType[];
+      total: number;
+    }>("/api/proxy?path=/api/rss_sources/page", { page, pageSize });
+
+    console.log("res=======", res);
+    setData(res.data ?? []); // 确保 API 返回 { data: [...] }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const fetchRssSync = async (row: RssSourcesType) => {
     const { url, id } = row;
     setSyncLoadingId(id);
@@ -38,30 +56,17 @@ export default function RssSourcesPage() {
 
   const fetchRssDelete = async ({ id: sourceId }: RssSourcesType) => {
     setDeleteId(sourceId);
-    await apiRequest("/api/proxy?path=/api/rss_sources/delete", {
-      sourceId,
-    }).finally(() => {
+    try {
+      await apiRequest("/api/proxy?path=/api/rss_sources/delete", {
+        sourceId,
+      });
+      fetchData();
+    } catch (error) {
+      console.log("error", error);
+    } finally {
       setDeleteId(null);
-    });
+    }
   };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      const res = await apiRequest<{
-        page: number;
-        pageSize: number;
-        data: RssSourcesType[];
-        total: number;
-      }>("/api/proxy?path=/api/rss_sources/page", { page, pageSize });
-
-      console.log("res=======", res);
-      setData(res.data ?? []); // 确保 API 返回 { data: [...] }
-      setLoading(false);
-    };
-
-    fetchData();
-  }, []);
 
   return (
     <div className="max-w-2xl mx-auto p-4">

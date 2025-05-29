@@ -10,7 +10,7 @@ import MobileNav from "./MobileNav";
 const navItems = [
   { label: "posts", path: "/posts" },
   { label: "shortnews", path: "/shortnews" },
-  { label: "RSS_Sources", path: "/rss_source" },
+  { label: "rss sources", path: "/rss_source" },
 ];
 
 export default function Navigation() {
