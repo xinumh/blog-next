@@ -2,6 +2,7 @@
 import type { MDXComponents } from "mdx/types";
 import Callout from "./Callout";
 import React, { ReactNode } from "react";
+import Image from "next/image";
 
 export const mdxComponents: MDXComponents = {
   Callout,
@@ -53,5 +54,14 @@ export const mdxComponents: MDXComponents = {
   },
   ol: ({ children }) => (
     <ol className="list-decimal list-inside space-y-2 pl-4">{children}</ol>
+  ),
+  img: ({ src }) => (
+    <Image
+      src={`/api/image?src=${encodeURIComponent(src)}`}
+      alt="notion-img"
+      width={800}
+      height={600}
+      priority
+    />
   ),
 };

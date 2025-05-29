@@ -5,6 +5,7 @@ import {
   PartialPageObjectResponse,
   PartialDatabaseObjectResponse,
   DatabaseObjectResponse,
+  DatePropertyItemObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { mdxComponents } from "@/components/mdx-components";
@@ -15,13 +16,16 @@ type Post = {
   id: string;
   title: string;
   slug: string;
+  date: string;
+  published: boolean;
 };
 
 type NotionResult =
   | PageObjectResponse
   | PartialPageObjectResponse
   | PartialDatabaseObjectResponse
-  | DatabaseObjectResponse;
+  | DatabaseObjectResponse
+  | DatePropertyItemObjectResponse;
 
 export function parseNotionPosts(results: NotionResult[]): Post[] {
   return results
@@ -30,19 +34,29 @@ export function parseNotionPosts(results: NotionResult[]): Post[] {
       const props = item.properties;
 
       const title =
-        props.Name?.type === "title"
-          ? props.Name.title[0]?.plain_text ?? "Untitled"
+        props.title?.type === "title"
+          ? props.title.title[0]?.plain_text ?? "Untitled"
           : "Untitled";
 
       const slug =
-        props.Slug?.type === "rich_text"
-          ? props.Slug.rich_text[0]?.plain_text ?? item.id
+        props.slug?.type === "rich_text"
+          ? props.slug.rich_text[0]?.plain_text ?? item.id
           : item.id;
+
+      const date =
+        props.date?.type === "date" ? props.date?.date?.start ?? "" : "";
+
+      const published =
+        props.published?.type === "checkbox"
+          ? props.published?.checkbox ?? false
+          : false;
 
       return {
         id: item.id,
         title,
         slug,
+        date,
+        published,
       };
     });
 }
@@ -53,6 +67,18 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
 export async function getAllPosts() {
   const res = await notion.databases.query({
     database_id: process.env.NOTION_DATABASE_ID!,
+    filter: {
+      property: "published",
+      checkbox: {
+        equals: true, // ✅ 只获取 published 的
+      },
+    },
+    sorts: [
+      {
+        property: "date",
+        direction: "descending",
+      },
+    ],
   });
 
   const posts = parseNotionPosts(res.results);
