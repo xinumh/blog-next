@@ -9,7 +9,7 @@ export default function PostListLayout({
   return (
     <div>
       <Navigation />
-      <main className="min-h-screen max-w-3xl m-auto">{children}</main>
+      <main className="min-h-screen max-w-3xl m-auto pt-16">{children}</main>
       <Footer />
     </div>
   );

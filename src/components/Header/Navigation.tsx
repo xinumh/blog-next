@@ -42,7 +42,7 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="shadow-md relative">
+    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur bg-gray-100/80 shadow">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link className="text-xl font-bold font-serif" href="/">
