@@ -6,11 +6,11 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export default async function PostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export default async function PostPage({ params }: PageProps) {
   const { slug } = await params;
   const posts = await getAllPosts();
   const current = posts.find((post) => post.slug === slug);

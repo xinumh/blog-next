@@ -62,7 +62,10 @@ export default function RssEntriesPage() {
   );
 
   useEffect(() => {
-    fetchData(page, sourceId); // 初始加载一次
+    const init = () => {
+      fetchData(page, sourceId);
+    };
+    init();
   }, []);
 
   // 使用 IntersectionObserver 检测“加载更多”触底
