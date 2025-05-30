@@ -32,7 +32,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="max-w-md mx-auto mt-10 p-6 border rounded">
+    <main className="max-w-md mx-auto mt-10 p-6">
       <h1 className="text-2xl font-bold mb-4">注册</h1>
       {error && <p className="text-red-600 mb-2">{error}</p>}
       {success && <p className="text-green-600 mb-2">{success}</p>}

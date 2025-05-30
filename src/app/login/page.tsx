@@ -33,7 +33,7 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="max-w-md mx-auto mt-10 p-6 border rounded">
+    <main className="max-w-md mx-auto mt-10 p-6">
       <h1 className="text-2xl font-bold mb-4">登录</h1>
       {error && <p className="text-red-600 mb-2">{error}</p>}
       <form onSubmit={handleLogin} className="flex flex-col gap-4">
@@ -59,6 +59,9 @@ export default function LoginPage() {
             className="hover:underline text-blue-600"
           >
             忘记密码？
+          </Link>
+          <Link href="/register" className="hover:underline text-blue-600">
+            注册
           </Link>
         </div>
         <button
