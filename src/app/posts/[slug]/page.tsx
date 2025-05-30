@@ -37,7 +37,7 @@ export default async function PostPage({ params }: PageProps) {
   const MDXContent = await getPostContent(current.id); // 这里变成了组件
 
   return (
-    <div className="prose prose-neutral max-w-3xl px-4 mx-auto markdown">
+    <div className="prose prose-neutral max-w-3xl px-4 sm:px-6 md:px-8 mx-auto markdown">
       {MDXContent}
     </div>
   );
