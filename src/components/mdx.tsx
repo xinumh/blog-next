@@ -72,7 +72,7 @@ export const mdxComponents: MDXComponents = {
       {props.children}
     </pre>
   ),
-  code: (props) => (
-    <code className="text-pink-600 px-1 rounded">{props.children}</code>
-  ),
+  // code: (props) => (
+  //   <code className="text-pink-600 px-1 rounded">{props.children}</code>
+  // ),
 };

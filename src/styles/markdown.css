@@ -1,5 +1,11 @@
+@import "tailwindcss";
+
 .markdown p {
-  line-height: 1.5;
+  text-align: justify;
+  text-justify: inter-ideograph;
+  line-height: 1.75;
+  text-wrap: pretty; /* Tailwind 中可用 text-pretty */
+  hyphens: auto;
   margin-bottom: 8px;
 }
 
@@ -31,6 +37,16 @@
   /* font-family: "Source Serif Pro"; */
   font-family: "Courier New", Courier, monospace;
   letter-spacing: 0.05em;
+}
+
+@layer components {
+  .markdown p > code {
+    @apply bg-gray-100 text-pink-600 px-1 py-0.5 rounded text-sm font-mono;
+  }
+
+  .markdown pre > code {
+    @apply bg-transparent text-white px-0 py-0 rounded-none;
+  }
 }
 
 /* 标题 h */
