@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { mdxComponents } from "@/components/mdx-components";
+import { mdxComponents } from "@/components/mdx";
 import remarkDirective from "remark-directive";
 import { remarkCustomNotes } from "./remark-note-plugin";
 

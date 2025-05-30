@@ -1,4 +1,4 @@
-// components/mdx-components.tsx
+// components/mdx.tsx
 import type { MDXComponents } from "mdx/types";
 import Callout from "./Callout";
 import React, { ReactNode } from "react";
@@ -48,12 +48,14 @@ export const mdxComponents: MDXComponents = {
     });
 
     if (hasTaskListItem) {
-      return <ul className="pl-4">{children}</ul>;
+      return <ul className="task">{children}</ul>;
     }
-    return <ul className="list-disc list-inside space-y-2 pl-4">{children}</ul>;
+    return (
+      <ul className="list-disc notask list-inside space-y-2">{children}</ul>
+    );
   },
   ol: ({ children }) => (
-    <ol className="list-decimal list-inside space-y-2 pl-4">{children}</ol>
+    <ol className="list-decimal notask list-inside space-y-2">{children}</ol>
   ),
   img: ({ src }) => (
     <Image
@@ -64,4 +66,5 @@ export const mdxComponents: MDXComponents = {
       priority
     />
   ),
+  hr: () => <hr className="my-6 border-t border-gray-300" />,
 };

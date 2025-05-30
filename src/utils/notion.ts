@@ -8,7 +8,7 @@ import {
   DatePropertyItemObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { mdxComponents } from "@/components/mdx-components";
+import { mdxComponents } from "@/components/mdx";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
 
@@ -18,6 +18,7 @@ type Post = {
   slug: string;
   date: string;
   published: boolean;
+  summary?: string;
 };
 
 type NotionResult =
@@ -51,12 +52,18 @@ export function parseNotionPosts(results: NotionResult[]): Post[] {
           ? props.published?.checkbox ?? false
           : false;
 
+      const summary =
+        props.summary?.type === "rich_text"
+          ? props.summary.rich_text[0].plain_text
+          : "";
+
       return {
         id: item.id,
         title,
         slug,
         date,
         published,
+        summary,
       };
     });
 }
@@ -100,24 +107,7 @@ export async function getPostContent(postId: string) {
     options: {
       mdxOptions: {
         remarkPlugins: [remarkGfm], // 启用 GFM 支持表格
-        rehypePlugins: [
-          [
-            rehypePrettyCode,
-            {
-              theme: "github-dark",
-              onVisitLine(node: { children: string | unknown[] }) {
-                if (node.children.length === 0) {
-                  node.children = [{ type: "text", value: " " }];
-                }
-              },
-              onVisitHighlightedLine(node: {
-                properties: { className: string[] };
-              }) {
-                node.properties.className?.push("line--highlighted");
-              },
-            },
-          ],
-        ],
+        rehypePlugins: [[rehypePrettyCode, { theme: "github-dark" }]],
       },
     },
   });

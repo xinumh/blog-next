@@ -83,3 +83,36 @@
   font-size: 1rem;
   font-weight: 600;
 }
+
+.prose.markdown ul.task {
+  margin-left: 1rem; /* 缩进一点 */
+}
+
+.prose.markdown ul.task ul {
+  margin-left: 1rem; /* 缩进一点 */
+}
+
+.prose.markdown ul.notask ul {
+  list-style-type: circle; /* 第二层改为圆圈 */
+  margin-left: 1rem; /* 缩进一点 */
+}
+
+.prose.markdown ul.notask ul ul {
+  list-style-type: square; /* 第三层改为方块 */
+  margin-left: 1rem;
+}
+
+.prose.markdown ol {
+  list-style-type: decimal;
+  margin-left: 1rem;
+}
+
+.prose.markdown ol ol {
+  list-style-type: lower-alpha; /* 第二层用字母 */
+  margin-left: 1rem;
+}
+
+.prose.markdown ol ol ol {
+  list-style-type: lower-roman; /* 第三层用罗马数字 */
+  margin-left: 1rem;
+}
