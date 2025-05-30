@@ -15,6 +15,7 @@
 }
 .markdown blockquote p {
   line-height: 1.2;
+  margin-bottom: 0;
 }
 
 .markdown img {
