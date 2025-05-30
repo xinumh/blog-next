@@ -41,11 +41,7 @@
 
 @layer components {
   .markdown p > code {
-    @apply bg-gray-100 text-pink-600 px-1 py-0.5 rounded text-sm font-mono;
-  }
-
-  .markdown pre > code {
-    @apply bg-transparent text-white px-0 py-0 rounded-none;
+    @apply bg-gray-100 text-pink-600 px-1 py-0.5 rounded font-mono;
   }
 }
 
