@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import MobileNav from "./MobileNav";
+import { AnimatePresence, motion } from "framer-motion";
 
 const navItems = [
   { label: "posts", path: "/posts" },
@@ -18,6 +19,39 @@ export default function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [show, setShow] = useState(true);
+  const [isStickyActive, setStickyActive] = useState(false);
+  const threshold = 100;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // 是否激活固定样式（滚动超过阈值）
+      if (currentScrollY > threshold) {
+        setStickyActive(true);
+
+        if (currentScrollY < lastScrollY) {
+          setShow(true); // 向上滚动 -> 显示 Header
+        } else {
+          setShow(false); // 向下滚动 -> 隐藏 Header
+        }
+      } else {
+        // 没滚过 threshold，Header 不固定
+        setStickyActive(false);
+        setShow(true); // 保持显示
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [lastScrollY]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -42,7 +76,16 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur bg-gray-100/80 shadow">
+    <nav
+      className={clsx(
+        "fixed top-0 left-0 right-0 z-50 transition-transform duration-300",
+        isStickyActive
+          ? show
+            ? "translate-y-0 bg-white/80 backdrop-blur shadow-md"
+            : "-translate-y-full"
+          : "bg-transparent shadow-none"
+      )}
+    >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link className="text-xl font-bold font-serif" href="/">
@@ -72,23 +115,52 @@ export default function Navigation() {
               className="inline-flex cursor-pointer items-center justify-center p-2 rounded-md hover:bg-[var(--nav-hover-bg)] focus:outline-none"
               aria-label="Toggle menu"
             >
-              {isOpen ? (
-                <XMarkIcon className="h-6 w-6" />
-              ) : (
-                <Bars3Icon className="h-6 w-6" />
-              )}
+              <AnimatePresence mode="wait" initial={false}>
+                {isOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <XMarkIcon className="h-6 w-6 text-gray-900" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="open"
+                    initial={{ rotate: 90, opacity: 0, scale: 0.8 }}
+                    animate={{ rotate: 0, opacity: 1, scale: 1 }}
+                    exit={{ rotate: -90, opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Bars3Icon className="h-6 w-6 text-gray-900" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </li>
           </ul>
         </div>
       </div>
-      {/* Mobile Menu */}
-      {isOpen && (
-        <MobileNav
-          navItems={navItems}
-          pathname={pathname}
-          onClick={handleNavClick}
-        />
-      )}
+
+      {/* Mobile Menu 动画容器 */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            <MobileNav
+              navItems={navItems}
+              pathname={pathname}
+              onClick={handleNavClick}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

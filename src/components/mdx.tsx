@@ -67,4 +67,12 @@ export const mdxComponents: MDXComponents = {
     />
   ),
   hr: () => <hr className="my-6 border-t border-gray-300" />,
+  pre: (props) => (
+    <pre className="my-6 bg-[#0d1117]/80 backdrop-blur-md text-gray-100 p-4 rounded overflow-auto">
+      {props.children}
+    </pre>
+  ),
+  code: (props) => (
+    <code className="text-pink-600 px-1 rounded">{props.children}</code>
+  ),
 };
