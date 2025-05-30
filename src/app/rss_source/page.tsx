@@ -1,8 +1,9 @@
 "use client";
 
+import ConfirmPopover from "@/components/ConfirmPopover";
 import { apiRequest } from "@/utils/request";
 import clsx from "clsx";
-import { RefreshCcw, Trash2 } from "lucide-react";
+import { BetweenVerticalStart, ListRestart, Link2Off } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export type RssSourcesType = {
@@ -70,10 +71,10 @@ export default function RssSourcesPage() {
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <section className="flex mb-4 items-center justify-between border-b border-gray-400">
+      <section className="flex mb-4 items-center ">
         <h1 className="text-xl font-bold ">rss sources</h1>
         <a className="text-blue-500 cursor-pointer" href="/rss_source/new">
-          +新增
+          <BetweenVerticalStart size={18} className="mx-2" />
         </a>
       </section>
 
@@ -90,7 +91,7 @@ export default function RssSourcesPage() {
                 {item.name} – {item.description}
               </span>
               <span className="inline-flex">
-                <RefreshCcw
+                <ListRestart
                   size={18}
                   onClick={() => fetchRssSync(item)}
                   className={clsx(
@@ -98,14 +99,19 @@ export default function RssSourcesPage() {
                     syncLoadingId == item.id && "animate-spin"
                   )}
                 />
-                <Trash2
-                  size={18}
-                  className={clsx(
-                    "text-red-500 cursor-pointer",
-                    deleteId == item.id && "animate-spin"
-                  )}
-                  onClick={() => fetchRssDelete(item)}
-                />
+
+                <ConfirmPopover
+                  message="你确定要删除这条记录吗？"
+                  onConfirm={() => fetchRssDelete(item)}
+                >
+                  <Link2Off
+                    size={18}
+                    className={clsx(
+                      "text-red-500 cursor-pointer",
+                      deleteId == item.id && "animate-spin"
+                    )}
+                  />
+                </ConfirmPopover>
               </span>
             </li>
           ))}
