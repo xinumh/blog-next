@@ -9,9 +9,9 @@ import MobileNav from "./MobileNav";
 import { AnimatePresence, motion } from "framer-motion";
 
 const navItems = [
-  { label: "posts", path: "/posts" },
-  { label: "shortnews", path: "/shortnews" },
-  { label: "rss sources", path: "/rss_source" },
+  { label: "📝 posts", path: "/posts" },
+  { label: "📰 shortnews", path: "/shortnews" },
+  { label: "📡 rss sources", path: "/rss_source" },
 ];
 
 export default function Navigation() {
@@ -22,7 +22,7 @@ export default function Navigation() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [show, setShow] = useState(true);
   const [isStickyActive, setStickyActive] = useState(false);
-  const threshold = 100;
+  const threshold = 64;
 
   useEffect(() => {
     const handleScroll = () => {

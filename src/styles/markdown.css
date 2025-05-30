@@ -5,16 +5,15 @@
 
 .markdown blockquote {
   border-left: 4px solid #d1d5db;
-  font-style: italic;
+  /* font-style: italic; */
   background-color: var(--background);
   opacity: 0.5;
-  font-family: Georgia, serif;
   line-height: 1;
   margin: 10px 0px;
   padding: 12px 8px;
 }
 .markdown blockquote p {
-  line-height: 1.2;
+  line-height: 1.5;
   margin-bottom: 0;
 }
 
