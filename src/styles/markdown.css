@@ -31,6 +31,7 @@
 .markdown.prose {
   /* font-family: "Source Serif Pro"; */
   font-family: "Courier New", Courier, monospace;
+  letter-spacing: 0.05em;
 }
 
 /* 标题 h */
