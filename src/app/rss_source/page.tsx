@@ -81,11 +81,11 @@ export default function RssSourcesPage() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul className="space-y-2">
+        <ul className="space-y-2 border-t border-gray-300">
           {data.map((item, index) => (
             <li
               key={index}
-              className="p-3 border-b border-gray-300 flex justify-between"
+              className="py-3 border-b border-gray-300 flex justify-between"
             >
               <span>
                 {item.name} – {item.description}

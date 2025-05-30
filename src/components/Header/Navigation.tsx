@@ -7,6 +7,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import MobileNav from "./MobileNav";
 import { AnimatePresence, motion } from "framer-motion";
+import { useHideOnScroll } from "@/hooks/useHideOnScroll";
 
 const navItems = [
   { label: "📝 posts", path: "/posts" },
@@ -19,39 +20,7 @@ export default function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [show, setShow] = useState(true);
-  const [isStickyActive, setStickyActive] = useState(false);
-  const threshold = 64;
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      // 是否激活固定样式（滚动超过阈值）
-      if (currentScrollY > threshold) {
-        setStickyActive(true);
-
-        if (currentScrollY < lastScrollY) {
-          setShow(true); // 向上滚动 -> 显示 Header
-        } else {
-          setShow(false); // 向下滚动 -> 隐藏 Header
-        }
-      } else {
-        // 没滚过 threshold，Header 不固定
-        setStickyActive(false);
-        setShow(true); // 保持显示
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [lastScrollY]);
+  const { isSticky, show } = useHideOnScroll(); // 可传 threshold / scrollDelta
 
   useEffect(() => {
     const handleResize = () => {
@@ -79,7 +48,7 @@ export default function Navigation() {
     <nav
       className={clsx(
         "fixed top-0 left-0 right-0 z-50 transition-transform duration-300",
-        isStickyActive
+        isSticky
           ? show
             ? "translate-y-0 bg-white/80 backdrop-blur shadow-md"
             : "-translate-y-full"
