@@ -1,6 +1,7 @@
 import { PostType } from "@/types/post";
 import React from "react";
 import PostTag from "./PostTag";
+import { Calendar } from "lucide-react";
 
 type Props = {
   post: PostType;
@@ -23,10 +24,14 @@ const PostHeader = ({ post }: Props) => {
   return (
     <header>
       <h1>{post.title}</h1>
-      <time dateTime={post.date} className="text-sm flex">
+      <time
+        dateTime={post.date}
+        className="text-sm flex items-center gap-1 text-gray-500"
+      >
+        <Calendar size={14} />
         {post.date}
       </time>
-      <ul className="tags flex my-2">
+      <ul className="tags flex my-3">
         {post.tags.map((tag) => (
           <PostTag tag={tag} key={tag.id} className="px-1.5 py-0" />
         ))}
