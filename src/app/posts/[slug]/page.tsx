@@ -1,4 +1,5 @@
 // app/posts/[slug]/page.tsx
+import PostHeader from "@/components/PostHeader";
 import { getAllPosts, getPostContent } from "@/utils/notion";
 import { Metadata } from "next";
 
@@ -37,8 +38,9 @@ export default async function PostPage({ params }: PageProps) {
   const MDXContent = await getPostContent(current.id); // 这里变成了组件
 
   return (
-    <div className="prose prose-neutral max-w-3xl px-4 sm:px-6 md:px-8 mx-auto markdown">
-      {MDXContent}
-    </div>
+    <article className="prose prose-neutral max-w-3xl px-4 sm:px-6 md:px-8 mx-auto markdown">
+      <PostHeader post={current} />
+      <section>{MDXContent}</section>
+    </article>
   );
 }
