@@ -1,4 +1,4 @@
-import { RssEntriesType } from "@/app/shortnews/page";
+import { RssEntriesType } from "@/types/rss";
 import dayjs from "dayjs";
 import isToday from "dayjs/plugin/isToday";
 import isYesterday from "dayjs/plugin/isYesterday";

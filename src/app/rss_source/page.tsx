@@ -1,17 +1,11 @@
 "use client";
 
 import ConfirmPopover from "@/components/ConfirmPopover";
+import { RssSourcesType } from "@/types/rss";
 import { apiRequest } from "@/utils/request";
 import clsx from "clsx";
 import { BetweenVerticalStart, ListRestart, Link2Off } from "lucide-react";
 import { useEffect, useState } from "react";
-
-export type RssSourcesType = {
-  id: number;
-  name: string;
-  url: string;
-  description: string;
-};
 
 export default function RssSourcesPage() {
   const [data, setData] = useState<RssSourcesType[]>([]);

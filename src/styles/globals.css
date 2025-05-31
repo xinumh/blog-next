@@ -29,7 +29,6 @@ html {
   color: var(--foreground);
   font-family: var(--font-sans);
   transition: background-color 0.3s, color 0.3s;
-  letter-spacing: 0.05em;
 }
 
 .container-paper {
