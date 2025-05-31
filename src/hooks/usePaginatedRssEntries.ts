@@ -52,10 +52,9 @@ export function usePaginatedRssEntries(sourceId?: number, pageSize = 20) {
   useEffect(() => {
     if (!hasInitialized.current) {
       hasInitialized.current = true;
-      setPage(1);
-      fetchData(1, sourceId);
+      fetchData(1);
     }
-  }, [sourceId, fetchData]);
+  }, [fetchData]);
 
   useEffect(() => {
     const loader = loaderRef.current;
@@ -83,5 +82,5 @@ export function usePaginatedRssEntries(sourceId?: number, pageSize = 20) {
     };
   }, [loaderRef, loading, hasMore, page, fetchData, sourceId]);
 
-  return { groupData, loading, hasMore, loaderRef };
+  return { groupData, loading, hasMore, loaderRef, refetchFn: fetchData };
 }

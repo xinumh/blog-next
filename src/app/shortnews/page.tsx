@@ -8,9 +8,14 @@ import { useRssSources } from "@/hooks/useRssSources";
 
 export default function RssEntriesPage() {
   const [sourceId, setSourceId] = useState<number>();
-  const { groupData, loading, hasMore, loaderRef } =
+  const { groupData, loading, hasMore, loaderRef, refetchFn } =
     usePaginatedRssEntries(sourceId);
   const { sources } = useRssSources();
+  const handleSourceChange = (e: { target: { value: unknown } }) => {
+    const value = Number(e.target.value);
+    setSourceId(value);
+    refetchFn(1, value);
+  };
 
   return (
     <>
@@ -23,7 +28,7 @@ export default function RssEntriesPage() {
 
           <select
             value={sourceId ?? ""}
-            onChange={(e) => setSourceId(Number(e.target.value))}
+            onChange={handleSourceChange}
             className="px-3 py-2 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500"
           >
             <option value="">可选择 RSS 源</option>

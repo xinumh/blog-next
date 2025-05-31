@@ -11,7 +11,8 @@ export function useRssSources() {
         const res = await apiRequest<{ data: RssSourcesType[] }>(
           "/api/proxy?path=/api/rss_sources/page",
           {
-            body: JSON.stringify({ page: 1, pageSize: 100 }),
+            page: 1,
+            pageSize: 100,
           }
         );
         setSources(res?.data ?? []);
