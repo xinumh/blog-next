@@ -33,11 +33,11 @@ NEXT_PUBLIC_BASE_API_URL=http://localhost:3000
 5. `.env`
 
 [x] 自定义标题、代码高亮、图片样式、blockquote 等
+[x] 支持 tags 分类页面
+[x] Notion 作为 cms，管理内容
 
-[ ] :::danger 会被映射为
 [ ] MDX 中可嵌入任意组件（如视频、图表等）
 [ ] toc.ts 自动生成目录（基于 h2 / h3）
-[ ] 支持 tag、category 页面
 [ ] 评论系统（Giscus 或 Cusdis）
-[ ] 动态 sitemap、RSS Feed
-[ ] 字体：复古 serif +现代 mono 组合
+[ ] 增量静态再生 (ISR) 功能，实现内容更新而不是重新构建部署，带有 SSR 的 ISR 来解决性能问题
+[ ] Notion 图片过期问题

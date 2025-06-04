@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 
 const TARGET_BASE_URL =
-  process.env.TARGET_BASE_URL || "http://114.132.87.45:9004";
+  process.env.TARGET_BASE_URL || "https://api.wonder.wang";
 
 export async function POST(request: NextRequest) {
   const path = request.nextUrl.searchParams.get("path") || "";
