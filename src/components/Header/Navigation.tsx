@@ -8,7 +8,6 @@ import Link from "next/link";
 import MobileNav from "./MobileNav";
 import { AnimatePresence, motion } from "framer-motion";
 import { useHideOnScroll } from "@/hooks/useHideOnScroll";
-import { Logo } from "../Logo";
 
 const navItems = [
   { label: "📝 posts", path: "/posts" },
@@ -58,10 +57,8 @@ export default function Navigation() {
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          {/* <Logo className="w-32" /> */}
           <Link className="text-xl font-bold font-serif" href="/">
-            {/* Ashin&apos;blog */}
-            <Logo className="w-32" />
+            shyn&apos;blog
           </Link>
 
           {/* Desktop Navigation */}

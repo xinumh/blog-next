@@ -1,5 +1,11 @@
 import Footer from "@/components/Footer";
 import Navigation from "@/components/Header/Navigation";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Short News",
+  description: "Read less & Read more. Less is more.",
+};
 
 export default function PostLayout({
   children,
