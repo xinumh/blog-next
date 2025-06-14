@@ -14,3 +14,21 @@ export type RssSourcesType = {
   url: string;
   description: string;
 };
+
+export type RssDigestsType = {
+  id: number;
+  digestDate: string;
+  title: string;
+  createdAt: string;
+};
+
+export type RssDigestEntriesType = {
+  digestId: string;
+  entryId: string;
+};
+
+export type DateInfoType = {
+  date: string;
+  weekday: string;
+  lunar: string;
+};
