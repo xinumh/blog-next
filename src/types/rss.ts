@@ -20,6 +20,7 @@ export type RssDigestsType = {
   digestDate: string;
   title: string;
   createdAt: string;
+  quote: string;
 };
 
 export type RssDigestEntriesType = {

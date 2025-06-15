@@ -4,13 +4,13 @@ import { RssDigestsType, RssEntriesType, DateInfoType } from "@/types/rss";
 
 type DataType = {
   entries: RssEntriesType[];
-  digest: RssDigestsType | null;
+  digest: RssDigestsType;
   dateInfo: DateInfoType | null;
 };
-export function useRssDigestEntries(digestId: number) {
+export function useRssDigestEntries(digestId?: number) {
   const [data, setData] = useState<DataType>({
     entries: [],
-    digest: null,
+    digest: {} as RssDigestsType,
     dateInfo: null,
   });
 
@@ -19,17 +19,15 @@ export function useRssDigestEntries(digestId: number) {
       try {
         const res = await apiRequest<DataType>(
           "/api/proxy?path=/api/rss_digests/entries",
-          {
-            digestId,
-          }
+          { digestId }
         );
-        setData(res);
+        setData(res ?? {});
       } catch (e) {
         console.error("rss_digests fetch error", e);
       }
     };
     fetchData();
-  }, []);
+  }, [digestId]);
 
   return { data };
 }

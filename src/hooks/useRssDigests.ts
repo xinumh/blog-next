@@ -6,7 +6,7 @@ export function useRssDigests() {
   const [digests, setDigests] = useState<RssDigestsType[]>([]);
 
   useEffect(() => {
-    const fetchDigests = async () => {
+    const fetchDigestsList = async () => {
       try {
         const res = await apiRequest<{ data: RssDigestsType[] }>(
           "/api/proxy?path=/api/rss_digests/page",
@@ -21,7 +21,7 @@ export function useRssDigests() {
         console.error("rss_digests fetch error", e);
       }
     };
-    fetchDigests();
+    fetchDigestsList();
   }, []);
 
   return { digests };
