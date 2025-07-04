@@ -3,6 +3,8 @@ export type RssEntriesType = {
   title: string;
   titleZh?: string;
   link: string;
+  source: string;
+  sourceId: string;
   description: string;
   createdAt: string;
   pubDate: string;
@@ -21,6 +23,7 @@ export type RssDigestsType = {
   title: string;
   createdAt: string;
   quote: string;
+  content: string;
 };
 
 export type RssDigestEntriesType = {
@@ -32,4 +35,22 @@ export type DateInfoType = {
   date: string;
   weekday: string;
   lunar: string;
+};
+
+export type DailyNewsType = {
+  id: number;
+  pubDate: string;
+  title: string;
+  source: string;
+  sourceId: string;
+  createdAt: string;
+  url: string;
+};
+
+export type DailyNewsDataType = {
+  date: string;
+  weekday: string;
+  lunar: string;
+  quote: string;
+  newsList: { title: string; order: number }[];
 };

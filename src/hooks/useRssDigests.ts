@@ -5,24 +5,25 @@ import { RssDigestsType } from "@/types/rss";
 export function useRssDigests() {
   const [digests, setDigests] = useState<RssDigestsType[]>([]);
 
+  const fetchDigestsList = async () => {
+    try {
+      const res = await apiRequest<{ data: RssDigestsType[] }>(
+        "/api/proxy?path=/api/rss_digests/page",
+        {
+          page: 1,
+          pageSize: 100,
+        }
+      );
+      console.log("res", res);
+      setDigests(res?.data ?? []);
+    } catch (e) {
+      console.error("rss_digests fetch error", e);
+    }
+  };
+
   useEffect(() => {
-    const fetchDigestsList = async () => {
-      try {
-        const res = await apiRequest<{ data: RssDigestsType[] }>(
-          "/api/proxy?path=/api/rss_digests/page",
-          {
-            page: 1,
-            pageSize: 100,
-          }
-        );
-        console.log("res", res);
-        setDigests(res?.data ?? []);
-      } catch (e) {
-        console.error("rss_digests fetch error", e);
-      }
-    };
     fetchDigestsList();
   }, []);
 
-  return { digests };
+  return { digests, run: fetchDigestsList };
 }

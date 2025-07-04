@@ -41,7 +41,10 @@ export async function apiRequest<T = unknown>(
   console.log("json", json);
 
   if (json.code !== 200) {
-    throw new Error(json.message || "请求失败");
+    return {
+      ...json,
+      data: null,
+    } as T;
   }
 
   return json.data;
