@@ -15,6 +15,7 @@ export type RssSourcesType = {
   name: string;
   url: string;
   description: string;
+  isSubscribed?: string;
 };
 
 export type RssDigestsType = {

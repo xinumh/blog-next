@@ -1,27 +1,26 @@
 "use client";
 
-import Link from "next/link";
-import { BookPlus } from "lucide-react";
-import { useState } from "react";
+// import Link from "next/link";
+// import { BookPlus } from "lucide-react";
+// import { useState } from "react";
 import { usePaginatedRssEntries } from "@/hooks/usePaginatedRssEntries";
-import { useRssSources } from "@/hooks/useRssSources";
+// import { useRssSources } from "@/hooks/useRssSources";
 
 export default function RssEntriesPage() {
-  const [sourceId, setSourceId] = useState<number>();
-  const { groupData, loading, hasMore, loaderRef, refetchFn } =
-    usePaginatedRssEntries(sourceId);
-  const { sources } = useRssSources();
-  const handleSourceChange = (e: { target: { value: unknown } }) => {
-    const value = Number(e.target.value);
-    setSourceId(value);
-    refetchFn(1, value);
-  };
+  // const [sourceId, setSourceId] = useState<number>();
+  const { groupData, loading, hasMore, loaderRef } = usePaginatedRssEntries();
+  // const { sources } = useRssSources();
+  // const handleSourceChange = (e: { target: { value: unknown } }) => {
+  //   const value = Number(e.target.value);
+  //   setSourceId(value);
+  //   refetchFn(1, value);
+  // };
 
   return (
     <>
       <section className="flex mb-4 items-center justify-between">
         <h1 className="text-xl font-bold">Short News</h1>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <Link href="/rss_source">
             <BookPlus className="text-blue-500 w-6" />
           </Link>
@@ -38,7 +37,7 @@ export default function RssEntriesPage() {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
       </section>
 
       <div className="space-y-6">

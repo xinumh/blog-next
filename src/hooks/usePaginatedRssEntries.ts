@@ -22,7 +22,7 @@ export function usePaginatedRssEntries(sourceId?: number, pageSize = 20) {
           pageSize: number;
           data: RssEntriesType[];
           total: number;
-        }>("/api/proxy?path=/api/rss_entries/page", {
+        }>("/api/proxy?path=/api/rss_entries/page_subscribe", {
           page,
           pageSize,
           sourceId,

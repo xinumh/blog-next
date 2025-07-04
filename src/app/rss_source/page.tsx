@@ -4,13 +4,21 @@ import ConfirmPopover from "@/components/ConfirmPopover";
 import { RssSourcesType } from "@/types/rss";
 import { apiRequest } from "@/utils/request";
 import clsx from "clsx";
-import { BetweenVerticalStart, ListRestart, Link2Off } from "lucide-react";
+import {
+  BetweenVerticalStart,
+  ListRestart,
+  Link2Off,
+  Star,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function RssSourcesPage() {
   const [data, setData] = useState<RssSourcesType[]>([]);
   const [loading, setLoading] = useState(true);
   const [syncLoadingId, setSyncLoadingId] = useState<number | null>(null);
+  const [subscribeLoadingId, setSubscribeLoadingId] = useState<number | null>(
+    null
+  );
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
   const page = 1;
@@ -23,7 +31,7 @@ export default function RssSourcesPage() {
       pageSize: number;
       data: RssSourcesType[];
       total: number;
-    }>("/api/proxy?path=/api/rss_sources/page", { page, pageSize });
+    }>("/api/proxy?path=/api/rss_sources/page_subscribe", { page, pageSize });
 
     console.log("res=======", res);
     setData(res.data ?? []); // 确保 API 返回 { data: [...] }
@@ -46,6 +54,27 @@ export default function RssSourcesPage() {
       console.log(error);
     } finally {
       setSyncLoadingId(null);
+    }
+  };
+
+  const fetchSubscribe = async (row: RssSourcesType) => {
+    const { id, isSubscribed } = row;
+    setSubscribeLoadingId(id);
+
+    try {
+      await apiRequest(
+        isSubscribed
+          ? "/api/proxy?path=/api/subscriptions/unsubscribe"
+          : "/api/proxy?path=/api/subscriptions/subscribe",
+        {
+          sourceId: id,
+        }
+      );
+      await fetchData();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubscribeLoadingId(null);
     }
   };
 
@@ -91,6 +120,17 @@ export default function RssSourcesPage() {
                   className={clsx(
                     "mr-1 cursor-pointer transition-transform text-blue-500",
                     syncLoadingId == item.id && "animate-spin"
+                  )}
+                />
+                <Star
+                  size={18}
+                  onClick={() => fetchSubscribe(item)}
+                  className={clsx(
+                    "mr-1 cursor-pointer transition-transform text-blue-500",
+                    subscribeLoadingId == item.id && "animate-spin",
+                    item?.isSubscribed
+                      ? "fill-yellow-400 text-yellow-500"
+                      : "text-gray-400"
                   )}
                 />
 
