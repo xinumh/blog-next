@@ -3,6 +3,7 @@
 import ConfirmPopover from "@/components/ConfirmPopover";
 import { RssSourcesType } from "@/types/rss";
 import { apiRequest } from "@/utils/request";
+import Image from "next/image";
 import clsx from "clsx";
 import {
   BetweenVerticalStart,
@@ -111,7 +112,8 @@ export default function RssSourcesPage() {
               className="py-3 border-b border-gray-300 flex justify-between"
             >
               <span>
-                {item.name} – {item.description}
+                <Image src={item.icon} width={40} height={40} alt="icon" />
+                {item.name} – {item.url}
               </span>
               <span className="inline-flex">
                 <ListRestart

@@ -14,7 +14,7 @@ export default function RegisterPage() {
     setError("");
     setSuccess("");
 
-    const res = await fetch("/api/proxy?path=/api/register", {
+    const res = await fetch("/api/proxy?path=/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password, name }),

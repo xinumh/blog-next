@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     domains: [
+      "api.wonder.wang",
       "www.pexels.com",
       "gips3.baidu.com",
       "www.notion.so",

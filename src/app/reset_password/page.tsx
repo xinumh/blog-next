@@ -32,7 +32,7 @@ const ResetPassword = () => {
     setMessage(null);
 
     try {
-      const res = await fetch("/api/proxy?path=/api/reset-password", {
+      const res = await fetch("/api/proxy?path=/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token, newPassword: password }),

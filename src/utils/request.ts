@@ -31,16 +31,15 @@ export async function apiRequest<T = unknown>(
     cache: "no-store",
   });
 
+  const json: ApiResponse<T> = await res.json();
+  console.log("json", json);
   // 如果未授权，重定向到登录页
-  if (res.status === 401) {
+  if (json.code === 401) {
     window.location.href = "/login";
     throw new Error("登录已过期，请重新登录");
   }
 
-  const json: ApiResponse<T> = await res.json();
-  console.log("json", json);
-
-  if (json.code !== 200) {
+  if (json.code !== 0) {
     return {
       ...json,
       data: null,
