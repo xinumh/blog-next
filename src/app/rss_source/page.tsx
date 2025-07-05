@@ -111,9 +111,11 @@ export default function RssSourcesPage() {
               key={index}
               className="py-3 border-b border-gray-300 flex justify-between"
             >
-              <span>
-                <Image src={item.icon} width={40} height={40} alt="icon" />
-                {item.name} – {item.url}
+              <span className="flex items-center">
+                <Image src={item.icon} width={24} height={24} alt="icon" />
+                <span className="pl-2">
+                  {item.name} – {item.url}
+                </span>
               </span>
               <span className="inline-flex">
                 <ListRestart
