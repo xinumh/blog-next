@@ -21,7 +21,7 @@
     "framer-motion": "^12.10.5",
     "lucide-react": "^0.509.0",
     "lunar-javascript": "^1.7.3",
-    "next": "15.3.1",
+    "next": "15.3.8",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.4.6",
     "notion-to-md": "^3.1.9",
